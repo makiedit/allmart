@@ -1,502 +1,159 @@
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f8f9fa;
-    color: #333;
-}
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ማክቤል ማርት (Allmart Supermarket)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- የላይኛው ማሰሻ (Header) -->
+    <header>
+        <div class="logo">🛒 ማክቤል ማርት</div>
+        
+        <!-- የድምጽ ፍለጋ እና የጽሁፍ ፍለጋ ማዕከል -->
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="ምርቶችን ይፈልጉ..." onkeyup="searchProducts()">
+            <button onclick="startVoiceSearch()" class="mic-btn" title="በድምጽ ይፈልጉ">🎤</button>
+        </div>
 
-header {
-    background: linear-gradient(135deg, #0088cc, #005580);
-    color: white;
-    padding: 15px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    flex-wrap: wrap;
-    gap: 15px;
-}
+        <!-- የምንዛሬ መቀየሪያ (Currency Converter) -->
+        <div class="currency-selector">
+            <select id="currency-select" onchange="updateCurrency()">
+                <option value="ETB">ብር (ETB)</option>
+                <option value="USD">ዶላር ($)</option>
+                <option value="EUR">ዩሮ (€)</option>
+            </select>
+        </div>
+    </header>
 
-.logo {
-    font-size: 26px;
-    font-weight: bold;
-    letter-spacing: 1px;
-}
+    <!-- የዕድል መንኮራኩር (Spin Wheel) ማስታወቂያ ሰንደቅ -->
+    <div class="spin-banner">
+        <span>🎁 ዕድልዎን ሞክረው ቅናሽ ማግኘት ይፈልጋሉ?</span>
+        <button onclick="openSpinModal()">ዕድልዎን ያሽከርክሩ!</button>
+    </div>
 
-.search-container {
-    display: flex;
-    align-items: center;
-    background: white;
-    border-radius: 25px;
-    padding: 3px 15px;
-    width: 320px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
+    <!-- የከረጢት እና የትዕዛዝ ማጠናቀቂያ ክፍል (ከላይ) -->
+    <section class="checkout-section">
+        <h2>🛍️ የከረጢትዎ ይዘት እና የትዕዛዝ ማጠናቀቂያ</h2>
+        
+        <div id="cart-items">ካርቱ ባዶ ነው።</div>
+        
+        <!-- የኩፖን ኮድ ማስገቢያ ክፍል -->
+        <div class="promo-section">
+            <input type="text" id="promo-input" placeholder="የኩፖን ኮድ ያስገቡ (ለምሳሌ፦ MAKI2026)">
+            <button onclick="applyPromoCode()" class="promo-btn">ተግብር</button>
+        </div>
+        <p id="promo-message" class="promo-msg"></p>
 
-.search-container input {
-    border: none;
-    outline: none;
-    font-size: 14px;
-    flex: 1;
-    padding: 8px 0;
-}
+        <div class="price-summary">
+            <p id="subtotal-price">የእቃዎች ዋጋ: 0 ብር</p>
+            <p id="discount-price" style="color: #d9534f; display: none;">የቅናሽ መጠን: 0 ብር</p>
+            <p id="delivery-price">የማስረከቢያ ክፍያ: 0 ብር</p>
+            <p id="total-price">ጠቅላላ ድምር: 0 ብር</p>
+        </div>
 
-.mic-btn {
-    background: none;
-    border: none;
-    font-size: 18px;
-    cursor: pointer;
-    padding: 0 5px;
-}
+        <!-- የደንበኛ መረጃዎች ማስገቢያ ፎርም -->
+        <div class="customer-form">
+            <h3>የመላኪያ መረጃዎ</h3>
+            <input type="text" id="customer-name" placeholder="ሙሉ ስምዎ (ለምሳሌ፦ ማክቤል ካሰዬ)" required>
+            <input type="text" id="customer-phone" placeholder="ስልክ ቁጥር (ለምሳሌ፦ 0911223344)" required>
+            
+            <label for="customer-location">የሚገኙበት አካባቢ (ለመላኪያ ክፍያ):</label>
+            <select id="customer-location" onchange="updateDeliveryFee()">
+                <option value="" data-fee="0">-- አካባቢ ይምረጡ --</option>
+                <option value="ቦሌ (Bole)" data-fee="150">ቦሌ (150 ብር)</option>
+                <option value="ፒያሳ (Piassa)" data-fee="200">ፒያሳ (200 ብር)</option>
+                <option value="መገናኛ (Megenagna)" data-fee="120">መገናኛ (120 ብር)</option>
+                <option value="ሳሪስ (Saris)" data-fee="180">ሳሪስ (180 ብር)</option>
+                <option value="ላፍቶ (Lafito / ቃሊቲ)" data-fee="250">ላፍቶ / ቃሊቲ (250 ብር)</option>
+            </select>
+            
+            <label for="payment-method">የክፍያ አማራጭ ይምረጡ፡</label>
+            <select id="payment-method">
+                <option value="ቴሌብር (Telebirr)">ቴሌብር (Telebirr)</option>
+                <option value="የኢትዮጵያ ንግድ ባንክ (CBE)">የኢትዮጵያ ንግድ ባንክ (CBE)</option>
+                <option value="እቃው ሲደርስ በጥሬ ገንዘብ (Cash on Delivery)">እቃው ሲደርስ በጥሬ ገንዘብ (Cash)</option>
+            </select>
+        </div>
 
-.currency-selector select {
-    padding: 8px 12px;
-    border-radius: 20px;
-    border: none;
-    background: rgba(255,255,255,0.9);
-    font-weight: bold;
-    color: #005580;
-    cursor: pointer;
-    outline: none;
-}
+        <button onclick="checkout(event)" class="checkout-btn">ትዕዛዝ ወደ ቴሌግራም ላክ</button>
+    </section>
 
-/* Spin Banner */
-.spin-banner {
-    background: linear-gradient(90deg, #ff8c00, #ff4500);
-    color: white;
-    text-align: center;
-    padding: 10px;
-    font-weight: bold;
-    font-size: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-}
+    <!-- የምርት ምድቦች እና የማወዳደሪያ ቁልፍ -->
+    <div class="category-compare-bar">
+        <div class="categories">
+            <button onclick="filterProducts('all')">ሁሉም</button>
+            <button onclick="filterProducts('electronics')">ኤሌክትሮኒክስ</button>
+            <button onclick="filterProducts('clothes')">ልብስ</button>
+            <button onclick="filterProducts('appliances')">የቤት እቃዎች</button>
+        </div>
+        <button onclick="openCompareModal()" class="compare-trigger-btn">⚖️ እቃዎችን አወዳድሮ ማየት</button>
+    </div>
 
-.spin-banner button {
-    background: white;
-    color: #ff4500;
-    border: none;
-    padding: 5px 15px;
-    border-radius: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s;
-}
+    <!-- ዋናው የምርት ማሳያ ክፍል -->
+    <main>
+        <div id="product-list" class="product-grid">
+            <!-- ምርቶች በ JavaScript አማካኝነት እዚህ ይገባሉ -->
+        </div>
+    </main>
 
-.spin-banner button:hover {
-    background: #f8f9fa;
-    transform: scale(1.05);
-}
+    <!-- 1. የምርት ዝርዝር ማሳያ እና ተዛማጅ እቃዎች ፖፕአፕ (Product Modal) -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content large-modal">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div class="modal-body-flex">
+                <div class="modal-left">
+                    <img id="modal-img" src="" alt="">
+                    <h2 id="modal-title"></h2>
+                    <p id="modal-desc" style="color: #666; font-size: 14px; margin: 10px 0;"></p>
+                    <p id="modal-price" style="color: #2b8a3e; font-weight: bold; font-size: 18px;"></p>
+                    <button id="modal-add-btn" class="modal-add-btn">ወደ ካርት ጨምር</button>
+                </div>
+                <div class="modal-right">
+                    <h3>🔗 ተዛማጅ እቃዎች (Related Items)</h3>
+                    <div id="related-items-container" class="related-items-grid">
+                        <!-- ተዛማጅ እቃዎች እዚህ ይገባሉ -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-.checkout-section {
-    background: white;
-    max-width: 700px;
-    margin: 25px auto;
-    padding: 25px 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    text-align: center;
-    border: 2px dashed #0088cc;
-}
+    <!-- 2. የዕድል መንኮራኩር ሞዳል (Spin Wheel Modal) -->
+    <div id="spin-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeSpinModal()">&times;</span>
+            <h2>🎡 ዕድልዎን ያሽከርክሩ!</h2>
+            <p>መንኮራኩሩን በማሽከርከር ልዩ የቅናሽ ኩፖን ያሸንፉ!</p>
+            <div id="wheel-box" class="wheel-box">🎁 ይጫኑ</div>
+            <button onclick="spinWheel()" id="spin-btn" class="spin-action-btn">አሽከርክር (Spin)</button>
+            <p id="spin-result" style="margin-top: 15px; font-weight: bold; color: #2b8a3e;"></p>
+        </div>
+    </div>
 
-.checkout-section h2 {
-    color: #0088cc;
-    margin-bottom: 10px;
-    font-size: 20px;
-}
+    <!-- 3. የእቃ ማወዳደሪያ ሞዳል (Comparison Modal) -->
+    <div id="compare-modal" class="modal">
+        <div class="modal-content compare-content">
+            <span class="close-btn" onclick="closeCompareModal()">&times;</span>
+            <h2>⚖️ እቃዎችን ማወዳደሪያ</h2>
+            <p style="font-size: 13px; color: #666;">ለማወዳደር የሚፈልጓቸውን 2 እቃዎች ይምረጡ፡</p>
+            
+            <div class="compare-selectors">
+                <select id="compare-1" onchange="updateComparison()">
+                    <option value="">-- የመጀመሪያውን እቃ ይምረጡ --</option>
+                </select>
+                <select id="compare-2" onchange="updateComparison()">
+                    <option value="">-- ሁለተኛውን እቃ ይምረጡ --</option>
+                </select>
+            </div>
 
-#cart-items {
-    text-align: left;
-    margin: 15px 0;
-    padding: 12px;
-    background: #f1f9ff;
-    border-radius: 8px;
-    max-height: 180px;
-    overflow-y: auto;
-    border: 1px solid #d0e8ff;
-}
+            <div id="compare-result-box" class="compare-result-box">
+                እባክዎ ንፅፅር ለማየት ሁለቱን እቃዎች ይምረጡ።
+            </div>
+        </div>
+    </div>
 
-.cart-item-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px solid #d0e8ff;
-    font-size: 14px;
-}
-
-.cart-item-row:last-child {
-    border-bottom: none;
-}
-
-.cart-controls {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.cart-controls button {
-    background: #0088cc;
-    color: white;
-    border: none;
-    width: 25px;
-    height: 25px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.cart-controls button:hover {
-    background: #005580;
-}
-
-.promo-section {
-    display: flex;
-    gap: 10px;
-    margin: 15px 0 5px 0;
-}
-
-.promo-section input {
-    flex: 1;
-    padding: 10px 12px;
-    border: 1px solid #ced4da;
-    border-radius: 6px;
-    font-size: 14px;
-    outline: none;
-}
-
-.promo-section input:focus {
-    border-color: #0088cc;
-}
-
-.promo-btn {
-    background: #0088cc;
-    color: white;
-    border: none;
-    padding: 0 20px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 14px;
-}
-
-.promo-btn:hover {
-    background: #006699;
-}
-
-.promo-msg {
-    font-size: 13px;
-    text-align: left;
-    margin-bottom: 15px;
-    font-weight: 600;
-}
-
-.price-summary {
-    background: #f8f9fa;
-    padding: 12px;
-    border-radius: 8px;
-    margin: 15px 0;
-    text-align: left;
-    border: 1px solid #e9ecef;
-}
-
-.price-summary p {
-    margin: 5px 0;
-    font-size: 15px;
-    color: #495057;
-}
-
-#total-price {
-    font-size: 18px;
-    font-weight: bold;
-    color: #2b8a3e;
-    border-top: 1px solid #dee2e6;
-    padding-top: 5px;
-    margin-top: 5px;
-}
-
-.customer-form {
-    text-align: left;
-    margin: 20px 0;
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 8px;
-    border: 1px solid #e9ecef;
-}
-
-.customer-form h3 {
-    font-size: 16px;
-    margin-bottom: 10px;
-    color: #495057;
-}
-
-.customer-form input, .customer-form select {
-    width: 100%;
-    padding: 10px 12px;
-    margin-bottom: 12px;
-    border: 1px solid #ced4da;
-    border-radius: 6px;
-    font-size: 14px;
-    outline: none;
-    box-sizing: border-box;
-}
-
-.customer-form input:focus, .customer-form select:focus {
-    border-color: #0088cc;
-    box-shadow: 0 0 5px rgba(0,136,204,0.3);
-}
-
-.customer-form label {
-    font-size: 13px;
-    font-weight: 600;
-    color: #495057;
-    display: block;
-    margin-bottom: 5px;
-}
-
-.checkout-btn {
-    background: #2b8a3e;
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.2s;
-    width: 100%;
-}
-
-.checkout-btn:hover {
-    background: #237032;
-}
-
-.category-compare-bar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #ffffff;
-    padding: 15px 40px;
-    margin-bottom: 25px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.categories {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.categories button {
-    padding: 8px 18px;
-    border: none;
-    background: #f1f3f5;
-    color: #495057;
-    border-radius: 30px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-.categories button:hover {
-    background: #0088cc;
-    color: white;
-}
-
-.compare-trigger-btn {
-    background: #ff8c00;
-    color: white;
-    border: none;
-    padding: 9px 18px;
-    border-radius: 30px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.compare-trigger-btn:hover {
-    background: #e07b00;
-}
-
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 25px;
-    padding: 0 40px 40px 40px;
-    max-width: 1300px;
-    margin: 0 auto;
-}
-
-.product-card {
-    background: white;
-    padding: 15px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    text-align: center;
-    transition: transform 0.3s ease;
-}
-
-.product-card:hover {
-    transform: translateY(-5px);
-}
-
-.product-card img {
-    width: 100%;
-    height: 170px;
-    object-fit: cover;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.product-card h3 {
-    font-size: 16px;
-    margin: 12px 0 8px;
-    color: #212529;
-    cursor: pointer;
-}
-
-.product-card h3:hover {
-    color: #0088cc;
-}
-
-.product-card p {
-    color: #2b8a3e;
-    font-weight: bold;
-    font-size: 16px;
-    margin-bottom: 12px;
-}
-
-.product-actions {
-    display: flex;
-    gap: 8px;
-}
-
-.product-card button {
-    background: #0088cc;
-    color: white;
-    border: none;
-    padding: 9px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    flex: 1;
-    font-size: 13px;
-}
-
-.product-card button.details-btn {
-    background: #6c757d;
-}
-
-.product-card button:hover {
-    opacity: 0.9;
-}
-
-/* Modals */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-content {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    max-width: 400px;
-    width: 90%;
-    text-align: center;
-    position: relative;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-}
-
-.modal-content img {
-    width: 100%;
-    height: 220px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 15px;
-}
-
-.close-btn {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #aaa;
-    cursor: pointer;
-}
-
-.close-btn:hover {
-    color: #000;
-}
-
-.modal-add-btn, .spin-action-btn {
-    background: #2b8a3e;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 15px;
-    font-weight: bold;
-    border-radius: 6px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 15px;
-}
-
-.wheel-box {
-    font-size: 36px;
-    margin: 20px 0;
-    background: #f1f3f5;
-    padding: 20px;
-    border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: auto;
-    margin-right: auto;
-    border: 3px dashed #ff4500;
-}
-
-.compare-content {
-    max-width: 550px !important;
-}
-
-.compare-selectors {
-    display: flex;
-    gap: 10px;
-    margin: 15px 0;
-}
-
-.compare-selectors select {
-    flex: 1;
-    padding: 8px;
-    border-radius: 6px;
-    border: 1px solid #ced4da;
-    outline: none;
-}
-
-.compare-result-box {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 8px;
-    border: 1px solid #e9ecef;
-    text-align: left;
-    font-size: 14px;
-    min-height: 100px;
-}
+    <script src="script.js"></script>
+</body>
+</html>
