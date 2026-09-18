@@ -56,7 +56,7 @@ let deliveryFee = 0;
 let discountRate = 0;
 let appliedPromoCode = "";
 let currentCurrency = "ETB";
-let currencyRates = { ETB: 1, USD: 0.0083, EUR: 0.0076 }; // ግምታዊ የምንዛሬ ተመን (1 USD ~ 120 ETB ገደማ)
+let currencyRates = { ETB: 1, USD: 0.0083, EUR: 0.0076 };
 
 const botToken = "8981438302:AAH19L3Uk-6XYCQRo86WEtI0-v59gSyf8AE";
 const chatId = "8885724020";
@@ -85,7 +85,6 @@ function renderProducts(items) {
     });
 }
 
-// 1. የምንዛሬ መቀየሪያ (Currency Converter)
 function updateCurrency() {
     currentCurrency = document.getElementById("currency-select").value;
     renderProducts(products);
@@ -93,7 +92,6 @@ function updateCurrency() {
     populateCompareDropdowns();
 }
 
-// 2. የድምጽ ፍለጋ (Voice Search)
 function startVoiceSearch() {
     if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
         alert("ብራውዘርዎ የድምጽ ፍለጋን አይደግፍም!");
@@ -101,7 +99,7 @@ function startVoiceSearch() {
     }
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
-    recognition.lang = 'am-ET'; // አማርኛ ወይም እንግሊዝኛ ድምጽ መቀበል እንዲችል
+    recognition.lang = 'am-ET';
     recognition.start();
 
     recognition.onresult = function(event) {
@@ -115,7 +113,6 @@ function startVoiceSearch() {
     };
 }
 
-// 3. የዕድል መንኮራኩር (Spin Wheel)
 function openSpinModal() {
     document.getElementById("spin-modal").style.display = "flex";
     document.getElementById("spin-result").innerText = "";
@@ -141,7 +138,6 @@ function spinWheel() {
     }
 }
 
-// 4. የእቃ ማወዳደሪያ (Product Comparison)
 function openCompareModal() {
     document.getElementById("compare-modal").style.display = "flex";
     populateCompareDropdowns();
@@ -208,21 +204,45 @@ function updateComparison() {
     `;
 }
 
-// መደበኛ የስራ ፊንክሽኖች
+// ሞዳልን መክፈቻ እና ተዛማጅ እቃዎችን (Related Items) የሚያሳይ ፋንክሽን
 function openModal(productId) {
     const product = products.find(p => p.id === productId);
     if (!product) return;
 
+    let rate = currencyRates[currentCurrency];
+    let symbol = currentCurrency === 'USD' ? '$' : currentCurrency === 'EUR' ? '€' : 'ብር';
+    let convertedPrice = (product.price * rate).toFixed(2);
+
     document.getElementById("modal-img").src = product.image;
     document.getElementById("modal-title").innerText = product.name;
     document.getElementById("modal-desc").innerText = product.description;
-    document.getElementById("modal-price").innerText = `${product.price} ብር`;
+    document.getElementById("modal-price").innerText = `${convertedPrice} ${symbol}`;
     
     const modalAddBtn = document.getElementById("modal-add-btn");
     modalAddBtn.onclick = function() {
         addToCart(product.id);
         closeModal();
     };
+
+    // ተዛማጅ እቃዎችን ማጣራት (በተመሳሳይ ምድብ ውስጥ ያሉ ግን የተመረጠው እቃ ያልሆኑ 3 እቃዎች)
+    const relatedContainer = document.getElementById("related-items-container");
+    const relatedProducts = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 3);
+    
+    let relatedHtml = "";
+    relatedProducts.forEach(rel => {
+        let relPrice = (rel.price * rate).toFixed(2);
+        relatedHtml += `
+            <div class="related-card" onclick="openModal(${rel.id})">
+                <img src="${rel.image}" alt="${rel.name}">
+                <div class="related-info">
+                    <h4>${rel.name}</h4>
+                    <p>${relPrice} ${symbol}</p>
+                </div>
+            </div>
+        `;
+    });
+    
+    relatedContainer.innerHTML = relatedHtml || "<p style='font-size:13px; color:#777;'>ተዛማጅ እቃዎች የሉም።</p>";
 
     document.getElementById("product-modal").style.display = "flex";
 }
