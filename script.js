@@ -204,7 +204,7 @@ function updateComparison() {
     `;
 }
 
-// ሞዳልን መክፈቻ እና ተዛማጅ እቃዎችን (Related Items) የሚያሳይ ፋንክሽን
+// የተሻሻለ ተዛማጅ እቃዎች ማጣሪያ (እንደ টিরቪ፣ ስልክ እና የመሳሰሉትን በአይነታቸው የሚያሳይ)
 function openModal(productId) {
     const product = products.find(p => p.id === productId);
     if (!product) return;
@@ -224,9 +224,17 @@ function openModal(productId) {
         closeModal();
     };
 
-    // ተዛማጅ እቃዎችን ማጣራት (በተመሳሳይ ምድብ ውስጥ ያሉ ግን የተመረጠው እቃ ያልሆኑ 3 እቃዎች)
+    // የዕቃውን ስም ዋና ቃላት በመውሰድ ትክክለኛውን የአይነት ተዛማጅነት (Smart Keyword Matching) መፈለግ
     const relatedContainer = document.getElementById("related-items-container");
-    const relatedProducts = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 3);
+    
+    // ከዕቃው ስም ዋናውን ቃል ማውጣት (ለምሳሌ "ቲቪ", "ስልክ", "ላፕቶፕ", "ጃኬት")
+    let keywords = product.name.split(" ")[0].toLowerCase();
+    
+    // ከእሱ ጋር ተመሳሳይ ቁልፍ ቃል ያላቸውን ወይም ተመሳሳይ ምድብ ውስጥ ያሉትን ማጣራት
+    const relatedProducts = products.filter(p => 
+        p.id !== product.id && 
+        (p.name.toLowerCase().includes(keywords) || p.category === product.category)
+    ).slice(0, 3);
     
     let relatedHtml = "";
     relatedProducts.forEach(rel => {
@@ -358,7 +366,8 @@ function updateCartUI() {
     let grandTotal = discountedSubtotal + deliveryFee;
 
     cartItemsContainer.innerHTML = html;
-    subtotalPriceElement.innerHTML = `የእቃዎች ዋጋ: ${(subtotal * rate).toFixed(2)} ${symbol}`;
+    subtotalPriceGroupText = subtotal * rate;
+    subtotalPriceElement.innerHTML = `የእቃዎች ዋጋ: ${subtotalPriceGroupText.toFixed(2)} ${symbol}`;
 
     if (discountRate > 0) {
         discountPriceElement.style.display = "block";
