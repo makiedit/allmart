@@ -498,7 +498,7 @@ function checkout(event) {
     if (event) event.preventDefault();
 
     if (cart.length === 0) {
-        alert("እባክዎ ከመዘዝዎ በፊት ቢያንስ አንድ እቃ ይምረጡ!");
+        alert("እባክዎ ትዕዛዝ ከመላክዎ በፊት ቢያንስ አንድ እቃ ይምረጡ!");
         return;
     }
 
@@ -507,16 +507,18 @@ function checkout(event) {
     const locationSelect = document.getElementById("customer-location");
     const location = locationSelect.value;
     const paymentMethod = document.getElementById("payment-method").value;
+    const transactionId = document.getElementById("transaction-id").value.trim();
 
-    if (!name || !phone || !location) {
-        alert("እባክዎ ትዕዛዝ ከመላክዎ በፊት ሙሉ ስምዎን፣ ስልክ ቁጥርዎን እና የመላኪያ አካባቢዎን ይምረጡ!");
+    if (!name || !phone || !location || !transactionId) {
+        alert("እባክዎ ሙሉ ስምዎን፣ ስልክ ቁጥርዎን፣ የመላኪያ አካባቢዎን እና የክፍያ ማረጋገጫ (Transaction ID) ያስገቡ!");
         return;
     }
 
     let orderSummary = `👤 የደንበኛ ስም: ${name}\n`;
     orderSummary += `📞 ስልክ ቁጥር: ${phone}\n`;
     orderSummary += `📍 አካባቢ: ${location}\n`;
-    orderSummary += `💳 የክፍያ አማራጭ: ${paymentMethod}\n\n`;
+    orderSummary += `💳 የክፍያ አማራጭ: ${paymentMethod}\n`;
+    orderSummary += `🧾 የክፍያ ማረጋገጫ (TxID): ${transactionId}\n\n`;
     orderSummary += `📦 የተመረጡ እቃዎች ዝርዝር:\n`;
     
     let subtotal = 0;
@@ -536,11 +538,11 @@ function checkout(event) {
         orderSummary += `\n✨ ከቅናሽ በኋላ ያለው ዋጋ: ${discountedSubtotal} ብር`;
     }
     orderSummary += `\n🚚 የማስረከቢያ ክፍያ: ${deliveryFee} ብር`;
-    orderSize = `\n💰 ጠቅላላ የሚከፈል: ${grandTotal} ብር`;
     orderSummary += `\n💰 ጠቅላላ የሚከፈል: ${grandTotal} ብር`;
 
     sendOrderToTelegram(orderSummary);
     
+    // ፎርሙን ማጽዳት
     cart = [];
     deliveryFee = 0;
     discountRate = 0;
@@ -548,15 +550,11 @@ function checkout(event) {
     locationSelect.selectedIndex = 0;
     document.getElementById("promo-input").value = "";
     document.getElementById("promo-message").innerText = "";
+    document.getElementById("transaction-id").value = "";
     updateCartUI();
     document.getElementById("customer-name").value = "";
     document.getElementById("customer-phone").value = "";
 }
-
-window.onload = function() {
-    renderProducts(products);
-    checkAdminAccess();
-};
 function toggleTheme() {
     const body = document.body;
     const themeBtn = document.getElementById("theme-toggle-btn");
