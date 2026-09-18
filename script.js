@@ -1,4 +1,3 @@
-// እያንዳንዱ ምድብ ከ15 በላይ እቃዎች እንዲኖሩት የተደረገ የተሟላ ዝርዝር
 let products = [
     // --- ኤሌክትሮኒክስ (Electronics) - 15 እቃዎች ---
     { id: 1, name: "ስማርት ስልክ (Smartphone)", price: 15000, category: "electronics", image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500&auto=format&fit=crop&q=60" },
@@ -27,12 +26,12 @@ let products = [
     { id: 22, name: "የባህላዊ ሀበሻ ልብስ (Habesha Kemis)", price: 4500, category: "clothes", image: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=500&auto=format&fit=crop&q=60" },
     { id: 23, name: "የофициал ሱፍ ልብስ (Formal Suit)", price: 7500, category: "clothes", image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=500&auto=format&fit=crop&q=60" },
     { id: 24, name: "የቆዳ ጃኬት (Leather Jacket)", price: 4200, category: "clothes", image: "https://images.unsplash.com/photo-1520975954732-35dd22299614?w=500&auto=format&fit=crop&q=60" },
-    { id: 25, name: "የশሚዝ ቱታ (Formal Shirt)", price: 1100, category: "clothes", image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=500&auto=format&fit=crop&q=60" },
+    { id: 25, name: "የ formal ሻሚዝ (Formal Shirt)", price: 1100, category: "clothes", image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=500&auto=format&fit=crop&q=60" },
     { id: 26, name: "የሴቶች በእጅ ቦርሳ (Handbag)", price: 2100, category: "clothes", image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=60" },
     { id: 27, name: "የፀሐይ መነጽር (Sunglasses)", price: 800, category: "clothes", image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500&auto=format&fit=crop&q=60" },
     { id: 28, name: "የክረምት ሻርፕ (Scarf)", price: 500, category: "clothes", image: "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?w=500&auto=format&fit=crop&q=60" },
     { id: 29, name: "የስፖርት ማልያ (Sport Jersey)", price: 950, category: "clothes", image: "https://images.unsplash.com/photo-1589785213123-149b5c328906?w=500&auto=format&fit=crop&q=60" },
-    { id: 30, name: "የመዋኛ ልብስ / የስፖርት ጫማ (Running Shoes)", price: 2600, category: "clothes", image: "https://images.unsplash.com/photo-1539185441755-769473a23570?w=500&auto=format&fit=crop&q=60" },
+    { id: 30, name: "የስፖርት ጫማ (Running Shoes)", price: 2600, category: "clothes", image: "https://images.unsplash.com/photo-1539185441755-769473a23570?w=500&auto=format&fit=crop&q=60" },
 
     // --- የቤት እቃዎች (Home Appliances) - 15 እቃዎች ---
     { id: 31, name: "ባለ ሁለት በር ማቀዝቀዣ (Refrigerator)", price: 48000, category: "appliances", image: "https://images.unsplash.com/photo-1584568694244-14fbdf82bd1e?w=500&auto=format&fit=crop&q=60" },
@@ -58,7 +57,6 @@ let cart = [];
 const botToken = "8981438302:AAH19L3Uk-6XYCQRo86WEtI0-v59gSyf8AE";
 const chatId = "8885724020";
 
-// ምርቶችን በዌብሳይት ላይ ማሳያ
 function renderProducts(items) {
     const productList = document.getElementById("product-list");
     if (!productList) return;
@@ -77,7 +75,6 @@ function renderProducts(items) {
     });
 }
 
-// በምድብ (Category) ማጣሪያ
 function filterProducts(category) {
     if (category === 'all') {
         renderProducts(products);
@@ -87,14 +84,12 @@ function filterProducts(category) {
     }
 }
 
-// በሰርች (Search) መፈለጊያ
 function searchProducts() {
     const query = document.getElementById("search-input").value.toLowerCase();
     const filtered = products.filter(p => p.name.toLowerCase().includes(query));
     renderProducts(filtered);
 }
 
-// ምርቶችን ወደ ካርት ማከያዎች
 function addToCart(productId) {
     const product = products.find(p => p.id === productId);
     if (product) {
@@ -104,7 +99,6 @@ function addToCart(productId) {
     }
 }
 
-// የካርት ማሳያን ማስተካከል
 function updateCartUI() {
     const cartItemsContainer = document.getElementById("cart-items");
     const totalPriceElement = document.getElementById("total-price");
@@ -127,7 +121,6 @@ function updateCartUI() {
     totalPriceElement.innerHTML = `ጠቅላላ ዋጋ: ${total} ብር`;
 }
 
-// ትዕዛዝ ወደ ቴሌግራም ቦት የሚልክ ፊንክሽን
 function sendOrderToTelegram(orderDetails) {
     const messageText = `🛒 አዲስ ትዕዛዝ መጥቷል!\n\n${orderDetails}`;
     const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(messageText)}`;
@@ -136,7 +129,7 @@ function sendOrderToTelegram(orderDetails) {
         .then(response => response.json())
         .then(data => {
             console.log("ትዕዛዙ በትክክል ተልኳል:", data);
-            alert("ትዕዛዝዎ በስኬት ወደ ቴሌግራም ቦት ተልኳል!");
+            alert("ትዕዛዝዎ በስኬት ወደ ቴሌግራም ቦት ተልኳል! እናመሰግናለን።");
         })
         .catch(error => {
             console.error("የትዕዛዝ መላክ ስህተት:", error);
@@ -144,7 +137,7 @@ function sendOrderToTelegram(orderDetails) {
         });
 }
 
-// የትዕዛዝ ማረጋገጫ (Checkout) ፊንክሽን
+// የትዕዛዝ ማረጋገጫ (Checkout) - ደንበኛው የሞላውን መረጃ ጨምሮ የሚልክ
 function checkout(event) {
     if (event) event.preventDefault();
 
@@ -153,23 +146,41 @@ function checkout(event) {
         return;
     }
 
-    let orderSummary = "የተመረጡ እቃዎች ዝርዝር:\n";
-    let total = 0;
+    // የደንበኛውን መረጃ ከ ፎርሙ መቀበል
+    const name = document.getElementById("customer-name").value.trim();
+    const phone = document.getElementById("customer-phone").value.trim();
+    const location = document.getElementById("customer-location").value.trim();
+    const paymentMethod = document.getElementById("payment-method").value;
+
+    // መረጃዎቹ በትክክል መሞላታቸውን ማረጋገጥ
+    if (!name || !phone || !location) {
+        alert("እባክዎ ትዕዛዝ ከመላክዎ በፊት ሙሉ ስምዎን፣ ስልክ ቁጥርዎን እና የሚገኙበትን አድራሻ ይሙሉ!");
+        return;
+    }
+
+    let orderSummary = `👤 የደንበኛ ስም: ${name}\n`;
+    orderSummary += `📞 ስልክ ቁጥር: ${phone}\n`;
+    orderSummary += `📍 አድራሻ: ${location}\n`;
+    orderSummary += `💳 የክፍያ አማራጭ: ${paymentMethod}\n\n`;
+    orderSummary += `📦 የተመረጡ እቃዎች ዝርዝር:\n`;
     
+    let total = 0;
     cart.forEach(item => {
         orderSummary += `- ${item.name}: ${item.price} ብር\n`;
         total += item.price;
     });
-    orderSummary += `\nጠቅላላ ዋጋ: ${total} ብር`;
+    orderSummary += `\n💰 ጠቅላላ ዋጋ: ${total} ብር`;
 
     sendOrderToTelegram(orderSummary);
     
-    // ካርቱን ባዶ ማድረግ
+    // ካርቱን እና ፎርሙን ባዶ ማድረግ
     cart = [];
     updateCartUI();
+    document.getElementById("customer-name").value = "";
+    document.getElementById("customer-phone").value = "";
+    document.getElementById("customer-location").value = "";
 }
 
-// ገጹ ሲከፈት ምርቶችን መጫን
 window.onload = function() {
     renderProducts(products);
 };
