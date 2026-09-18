@@ -9,7 +9,7 @@ body {
 header {
     background: linear-gradient(135deg, #0088cc, #005580);
     color: white;
-    padding: 20px 40px;
+    padding: 15px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -32,11 +32,63 @@ header {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
+/* ከላይ የሚቀመጠው የከረጢት/ትዕዛዝ ማጠቃለያ ዲዛይን */
+.checkout-section {
+    background: white;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    text-align: center;
+    border: 2px dashed #0088cc;
+}
+
+.checkout-section h2 {
+    color: #0088cc;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+#cart-items {
+    text-align: left;
+    margin: 15px 0;
+    padding: 12px;
+    background: #f1f9ff;
+    border-radius: 8px;
+    max-height: 120px;
+    overflow-y: auto;
+    border: 1px solid #d0e8ff;
+}
+
+#total-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2b8a3e;
+    margin: 10px 0;
+}
+
+.checkout-btn {
+    background: #2b8a3e;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.checkout-btn:hover {
+    background: #237032;
+}
+
 .categories {
     display: flex;
     justify-content: center;
     gap: 12px;
-    padding: 25px;
+    padding: 20px;
     background: #ffffff;
     margin-bottom: 25px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
@@ -65,7 +117,7 @@ header {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 25px;
-    padding: 0 40px;
+    padding: 0 40px 40px 40px;
     max-width: 1300px;
     margin: 0 auto;
 }
@@ -118,52 +170,4 @@ header {
 
 .product-card button:hover {
     background: #006699;
-}
-
-.checkout-section {
-    background: white;
-    max-width: 700px;
-    margin: 50px auto;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    text-align: center;
-}
-
-.checkout-section h2 {
-    color: #333;
-    margin-bottom: 15px;
-}
-
-#cart-items {
-    text-align: left;
-    margin: 15px 0;
-    padding: 10px;
-    background: #f8f9fa;
-    border-radius: 8px;
-    max-height: 150px;
-    overflow-y: auto;
-}
-
-#total-price {
-    font-size: 18px;
-    font-weight: bold;
-    color: #2b8a3e;
-    margin: 15px 0;
-}
-
-.checkout-btn {
-    background: #2b8a3e;
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.checkout-btn:hover {
-    background: #237032;
 }
