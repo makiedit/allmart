@@ -199,7 +199,7 @@ function updateComparison() {
     `;
 }
 
-// Admin Panel Functions (ሊንኩ ላይ ?admin=true ሲኖር ብቻ ይከፈታል)
+// Admin Panel Functions
 function checkAdminAccess() {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('admin') === 'true') {
@@ -220,8 +220,70 @@ function verifyAdminPassword() {
     if (pass === "maki2026") {
         document.getElementById("admin-login-box").style.display = "none";
         document.getElementById("admin-dashboard-box").style.display = "block";
+        populateAdminProductDropdown();
     } else {
         document.getElementById("admin-error-msg").innerText = "✗ ትክክል ያልሆነ የይለፍ ቃል!";
+    }
+}
+
+function populateAdminProductDropdown() {
+    const select = document.getElementById("admin-product-select");
+    let optionsHtml = '<option value="">-- ማስተካከል የሚፈልጉትን እቃ ይምረጡ --</option>';
+    products.forEach(p => {
+        optionsHtml += `<option value="${p.id}">${p.name} (አሁን ያለው ዋጋ: ${p.price} ብር)</option>`;
+    });
+    select.innerHTML = optionsHtml;
+    document.getElementById("edit-p-price").value = "";
+}
+
+function loadProductDetailsForAdmin() {
+    const selectedId = document.getElementById("admin-product-select").value;
+    const priceInput = document.getElementById("edit-p-price");
+    if (!selectedId) {
+        priceInput.value = "";
+        return;
+    }
+    const product = products.find(p => p.id == selectedId);
+    if (product) {
+        priceInput.value = product.price;
+    }
+}
+
+function updateExistingProductPrice() {
+    const selectedId = document.getElementById("admin-product-select").value;
+    const newPrice = Number(document.getElementById("edit-p-price").value);
+
+    if (!selectedId) {
+        alert("እባክዎ መጀመሪያ ማስተካከል የሚፈልጉትን እቃ ይምረጡ!");
+        return;
+    }
+    if (!newPrice || newPrice <= 0) {
+        alert("እባክዎ ትክክለኛ አዲስ ዋጋ ያስገቡ!");
+        return;
+    }
+
+    const product = products.find(p => p.id == selectedId);
+    if (product) {
+        product.price = newPrice;
+        renderProducts(products);
+        populateAdminProductDropdown();
+        alert("የእቃው ዋጋ በስኬት ተሻሽሏል!");
+    }
+}
+
+function deleteExistingProduct() {
+    const selectedId = document.getElementById("admin-product-select").value;
+    if (!selectedId) {
+        alert("እባክዎ መጀመሪያ መሰረዝ የሚፈልጉትን እቃ ይምረጡ!");
+        return;
+    }
+
+    if (confirm("ይህን እቃ ከሱቁ ውስጥ ሙሉ በሙሉ መሰረዝ ይፈልጋሉ?")) {
+        products = products.filter(p => p.id != selectedId);
+        renderProducts(products);
+        populateAdminProductDropdown();
+        document.getElementById("edit-p-price").value = "";
+        alert("እቃው በስኬት ተሰርዟል!");
     }
 }
 
@@ -242,6 +304,7 @@ function addNewProduct() {
 
     products.push(newProduct);
     renderProducts(products);
+    populateAdminProductDropdown();
     alert("አዲስ እቃ በስኬት ተጭኗል!");
     
     document.getElementById("new-p-name").value = "";
@@ -473,6 +536,7 @@ function checkout(event) {
         orderSummary += `\n✨ ከቅናሽ በኋላ ያለው ዋጋ: ${discountedSubtotal} ብር`;
     }
     orderSummary += `\n🚚 የማስረከቢያ ክፍያ: ${deliveryFee} ብር`;
+    orderSize = `\n💰 ጠቅላላ የሚከፈል: ${grandTotal} ብር`;
     orderSummary += `\n💰 ጠቅላላ የሚከፈል: ${grandTotal} ብር`;
 
     sendOrderToTelegram(orderSummary);
@@ -491,5 +555,5 @@ function checkout(event) {
 
 window.onload = function() {
     renderProducts(products);
-    checkAdminAccess(); // ሊንኩ ላይ ?admin=true መኖሩን እዚህ ይፈትሻል
+    checkAdminAccess();
 };
