@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ዘመናዊ የንግድ ዌብሳይት (E-Commerce)</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome ለስዕል ምልክቶች (Icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- የላይኛው ማሰሻ (Navigation Bar) -->
+    <header>
+        <div class="logo">
+            <h1><i class="fa-solid fa-store"></i> ማርኬት <span>ፕላስ</span></h1>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="ምርቶችን ይፈልጉ...">
+            <button><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+        <nav>
+            <button id="homeBtn" class="nav-link active"><i class="fa-solid fa-house"></i> መነሻ</button>
+            <button id="cartBtn" class="nav-link"><i class="fa-solid fa-cart-shopping"></i> ከረጢት (<span id="cartCount">0</span>)</button>
+            <button id="adminBtn" class="nav-link"><i class="fa-solid fa-lock"></i> አድሚን</button>
+        </nav>
+    </header>
+
+    <!-- ዋናው ይዘት (Main Container) -->
+    <main>
+        
+        <!-- 1. የምርት ካታሎግ ገጽ (Home / Catalog) -->
+        <section id="catalogSection" class="section active">
+            <div class="filters">
+                <button class="filter-btn active" data-category="all">ሁሉም</button>
+                <button class="filter-btn" data-category="electronics">ኤሌክትሮኒክስ</button>
+                <button class="filter-btn" data-category="clothing">አልባሳት</button>
+                <button class="filter-btn" data-category="home">የቤት እቃዎች</button>
+            </div>
+            <div id="productGrid" class="product-grid">
+                <!-- ምርቶች በ JavaScript ይሞላሉ -->
+            </div>
+        </section>
+
+        <!-- 2. የግዢ ከረጢት ገጽ (Shopping Cart & Checkout) -->
+        <section id="cartSection" class="section">
+            <h2>የመረጧቸው እቃዎች</h2>
+            <div class="cart-container">
+                <div id="cartItemsList" class="cart-items">
+                    <!-- የተመረጡ እቃዎች እዚህ ይገባሉ -->
+                </div>
+                <div class="cart-summary">
+                    <h3>ጠቅላላ ማጠቃለያ</h3>
+                    <div class="summary-row">
+                        <span>ቀረጥ/ትራንስፖርት:</span>
+                        <span>0.00 ብር</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>ጠቅላላ ዋጋ:</span>
+                        <span id="cartTotalPrice">0.00 ብር</span>
+                    </div>
+                    <button id="checkoutBtn" class="btn-primary">ክፍያ ለመፈጸም</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. የአስተዳደር ፓነል ገጽ (Admin Panel) -->
+        <section id="adminSection" class="section">
+            <div class="admin-header">
+                <h2>የአስተዳደር ፓነል (Admin Panel)</h2>
+                <button id="adminLogoutBtn" class="btn-danger"><i class="fa-solid fa-right-from-bracket"></i> ውጣ</button>
+            </div>
+            
+            <div class="admin-content">
+                <div class="add-product-card">
+                    <h3>አዲስ ምርት መዝግብ</h3>
+                    <form id="addProductForm">
+                        <input type="text" id="prodName" placeholder="የምርቱ ስም" required>
+                        <input type="number" id="prodPrice" placeholder="ዋጋ (በብር)" required>
+                        <select id="prodCategory" required>
+                            <option value="">ምድብ ይምረጡ</option>
+                            <option value="electronics">ኤሌክትሮኒክስ</option>
+                            <option value="clothing">አልባሳት</option>
+                            <option value="home">የቤት እቃዎች</option>
+                        </select>
+                        <input type="text" id="prodImage" placeholder="የምስል ሊንክ (URL)" required>
+                        <button type="submit" class="btn-success">ምርቱን ጨምር</button>
+                    </form>
+                </div>
+
+                <div class="manage-products">
+                    <h3>ያሉ ምርቶች ዝርዝር</h3>
+                    <div id="adminProductList" class="admin-prod-list">
+                        <!-- በአድሚን የሚተዳደሩ ምርቶች ዝርዝር -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- የክፍያ እና የደረሰኝ ሞዳል (Checkout Modal) -->
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>ትዕዛዝ ማረጋገጫ</h2>
+            <form id="checkoutForm">
+                <input type="text" id="custName" placeholder="ሙሉ ስምዎ" required>
+                <input type="tel" id="custPhone" placeholder="ስልክ ቁጥር (09...)" required>
+                <textarea id="custAddress" placeholder="አድራሻ / አካባቢ" required></textarea>
+                <select id="paymentMethod" required>
+                    <option value="">የክፍያ መንገድ ይምረጡ</option>
+                    <option value="CBE Birr">ንግድ ባንክ (CBE Birr)</option>
+                    <option value="Telebirr">ቴሌብር (Telebirr)</option>
+                    <option value="Cash">ዕቃው ሲደርስ (Cash on Delivery)</option>
+                </select>
+                <button type="submit" class="btn-primary">ትዕዛዙን አረጋግጥ</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ኦፊሴላዊ የደረሰኝ ሞዳል (Receipt Modal) -->
+    <div id="receiptModal" class="modal">
+        <div class="modal-content receipt-box">
+            <div class="receipt-header">
+                <i class="fa-solid fa-circle-check"></i>
+                <h2>ትዕዛዝዎ በተሳካ ሁኔታ አልፏል!</h2>
+                <p>እናመሰግናለን፣ ግዢዎ ተመዝግቧል።</p>
+            </div>
+            <div id="receiptDetails" class="receipt-body">
+                <!-- የደረሰኝ ዝርዝር እዚህ ይገባል -->
+            </div>
+            <button onclick="closeReceipt()" class="btn-primary">እሺ (ወደ መነሻ)</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
