@@ -186,11 +186,6 @@ function updateComparison() {
                 <th style="padding:5px;">${p2.name}</th>
             </tr>
             <tr style="border-bottom: 1px solid #ddd;">
-                <td style="padding:5px; font-weight:bold;">ፎቶ</td>
-                <td style="padding:5px; text-align:center;"><img src="${p1.image}" style="width:50px; height:50px; object-fit:cover; border-radius:4px;"></td>
-                <td style="padding:5px; text-align:center;"><img src="${p2.image}" style="width:50px; height:50px; object-fit:cover; border-radius:4px;"></td>
-            </tr>
-            <tr style="border-bottom: 1px solid #ddd;">
                 <td style="padding:5px; font-weight:bold;">ዋጋ</td>
                 <td style="padding:5px; text-align:center; color:#2b8a3e; font-weight:bold;">${p1.price} ብር</td>
                 <td style="padding:5px; text-align:center; color:#2b8a3e; font-weight:bold;">${p2.price} ብር</td>
@@ -204,7 +199,58 @@ function updateComparison() {
     `;
 }
 
-// ትክክለኛውን የአይነት ማጣሪያ (Smart Strict Matching ለ ቲቪ፣ ስልክ፣ ጃኬት፣ ወዘተ) የሚያደርግ ፋንክሽን
+// Admin Panel Functions (ሊንኩ ላይ ?admin=true ሲኖር ብቻ ይከፈታል)
+function checkAdminAccess() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('admin') === 'true') {
+        document.getElementById("admin-modal").style.display = "flex";
+        document.getElementById("admin-pass-input").value = "";
+        document.getElementById("admin-error-msg").innerText = "";
+        document.getElementById("admin-login-box").style.display = "block";
+        document.getElementById("admin-dashboard-box").style.display = "none";
+    }
+}
+
+function closeAdminModal() {
+    document.getElementById("admin-modal").style.display = "none";
+}
+
+function verifyAdminPassword() {
+    const pass = document.getElementById("admin-pass-input").value.trim();
+    if (pass === "maki2026") {
+        document.getElementById("admin-login-box").style.display = "none";
+        document.getElementById("admin-dashboard-box").style.display = "block";
+    } else {
+        document.getElementById("admin-error-msg").innerText = "✗ ትክክል ያልሆነ የይለፍ ቃል!";
+    }
+}
+
+function addNewProduct() {
+    const name = document.getElementById("new-p-name").value.trim();
+    const price = Number(document.getElementById("new-p-price").value);
+    const category = document.getElementById("new-p-category").value;
+    const image = document.getElementById("new-p-img").value.trim();
+    const description = document.getElementById("new-p-desc").value.trim();
+
+    if (!name || !price || !image || !description) {
+        alert("እባክዎ ሁሉንም መረጃዎች በትክክል ይሙሉ!");
+        return;
+    }
+
+    const newId = products.length > 0 ? products[products.length - 1].id + 1 : 1;
+    const newProduct = { id: newId, name, price, category, image, description };
+
+    products.push(newProduct);
+    renderProducts(products);
+    alert("አዲስ እቃ በስኬት ተጭኗል!");
+    
+    document.getElementById("new-p-name").value = "";
+    document.getElementById("new-p-price").value = "";
+    document.getElementById("new-p-img").value = "";
+    document.getElementById("new-p-desc").value = "";
+    closeAdminModal();
+}
+
 function openModal(productId) {
     const product = products.find(p => p.id === productId);
     if (!product) return;
@@ -224,37 +270,8 @@ function openModal(productId) {
         closeModal();
     };
 
-    // የዕቃውን ስም በመመርመር ትክክለኛውን ዓይነት ብቻ (ለምሳሌ ቲቪ ከሆነ ሌሎች ቲቪዎችን ብቻ) ማጣራት
     const relatedContainer = document.getElementById("related-items-container");
-    
-    let searchKeyword = "";
-    let nameLower = product.name.toLowerCase();
-    
-    if (nameLower.includes("ቲቪ") || nameLower.includes("tv")) {
-        searchKeyword = "tv";
-    } else if (nameLower.includes("ስልክ") || nameLower.includes("smartphone")) {
-        searchKeyword = "ስልክ";
-    } else if (nameLower.includes("ላፕቶፕ") || nameLower.includes("laptop")) {
-        searchKeyword = "ላፕቶፕ";
-    } else if (nameLower.includes("ጃኬት") || nameLower.includes("jacket")) {
-        searchKeyword = "ጃኬት";
-    } else if (nameLower.includes("ቀሚስ") || nameLower.includes("dress")) {
-        searchKeyword = "ቀሚስ";
-    } else {
-        searchKeyword = product.category; // ካልተገኘ በምድብ ይይዛል
-    }
-
-    const relatedProducts = products.filter(p => {
-        let pLower = p.name.toLowerCase();
-        return p.id !== product.id && (
-            (searchKeyword === "tv" && (pLower.includes("ቲቪ") || pLower.includes("tv"))) ||
-            (searchKeyword === "ስልክ" && (pLower.includes("ስልክ") || pLower.includes("smartphone"))) ||
-            (searchKeyword === "ላፕቶፕ" && (pLower.includes("ላፕቶፕ") || pLower.includes("laptop"))) ||
-            (searchKeyword === "ጃኬት" && (pLower.includes("ጃኬት") || pLower.includes("jacket"))) ||
-            (searchKeyword === "ቀሚስ" && (pLower.includes("ቀሚስ") || pLower.includes("dress"))) ||
-            (searchKeyword === product.category && p.category === product.category)
-        );
-    }).slice(0, 3);
+    const relatedProducts = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 3);
     
     let relatedHtml = "";
     relatedProducts.forEach(rel => {
@@ -263,15 +280,14 @@ function openModal(productId) {
             <div class="related-card" onclick="openModal(${rel.id})">
                 <img src="${rel.image}" alt="${rel.name}">
                 <div class="related-info">
-                    <h4>${rel.name}</h4>
-                    <p>${relPrice} ${symbol}</p>
+                    <h4 style="font-size:13px; margin:0 0 3px 0;">${rel.name}</h4>
+                    <p style="font-size:12px; margin:0; color:#2b8a3e; font-weight:bold;">${relPrice} ${symbol}</p>
                 </div>
             </div>
         `;
     });
     
     relatedContainer.innerHTML = relatedHtml || "<p style='font-size:13px; color:#777;'>ተዛማጅ እቃዎች የሉም።</p>";
-
     document.getElementById("product-modal").style.display = "flex";
 }
 
@@ -386,8 +402,7 @@ function updateCartUI() {
     let grandTotal = discountedSubtotal + deliveryFee;
 
     cartItemsContainer.innerHTML = html;
-    let subtotalVal = subtotal * rate;
-    subtotalPriceElement.innerHTML = `የእቃዎች ዋጋ: ${subtotalVal.toFixed(2)} ${symbol}`;
+    subtotalPriceElement.innerHTML = `የእቃዎች ዋጋ: ${(subtotal * rate).toFixed(2)} ${symbol}`;
 
     if (discountRate > 0) {
         discountPriceElement.style.display = "block";
@@ -397,7 +412,7 @@ function updateCartUI() {
     }
 
     deliveryPriceElement.innerHTML = `የማስረከቢያ ክፍያ: ${(deliveryFee * rate).toFixed(2)} ${symbol}`;
-    totalPriceElement.innerHTML = `ጠቅላላ ድር: ${(grandTotal * rate).toFixed(2)} ${symbol}`;
+    totalPriceElement.innerHTML = `ጠቅላላ ድምር: ${(grandTotal * rate).toFixed(2)} ${symbol}`;
 }
 
 function sendOrderToTelegram(orderDetails) {
@@ -476,4 +491,5 @@ function checkout(event) {
 
 window.onload = function() {
     renderProducts(products);
+    checkAdminAccess(); // ሊንኩ ላይ ?admin=true መኖሩን እዚህ ይፈትሻል
 };
