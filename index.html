@@ -73,7 +73,39 @@
                 <option value="ሳሪስ (Saris)" data-fee="180">ሳሪስ (180 ብር)</option>
                 <option value="ላፍቶ (Lafito / ቃሊቲ)" data-fee="250">ላፍቶ / ቃሊቲ (250 ብር)</option>
             </select>
-            
+            <div class="customer-form">
+                <h3>የመላኪያ መረጃዎ</h3>
+                <input type="text" id="customer-name" placeholder="ሙሉ ስምዎ (ለምሳሌ፦ ማክቤል ካሰዬ)" required>
+                <input type="text" id="customer-phone" placeholder="ስልክ ቁጥር (ለምሳሌ፦ 0911223344)" required>
+                
+                <label for="customer-location">የሚገኙበት አካባቢ (ለመላኪያ ክፍያ):</label>
+                <select id="customer-location" onchange="updateDeliveryFee()">
+                    <option value="" data-fee="0">-- አካባቢ ይምረጡ --</option>
+                    <option value="ቦሌ (Bole)" data-fee="150">ቦሌ (150 ብር)</option>
+                    <option value="ፒያሳ (Piassa)" data-fee="200">ፒያሳ (200 ብር)</option>
+                    <option value="መገናኛ (Megenagna)" data-fee="120">መገናኛ (120 ብር)</option>
+                    <option value="ሳሪስ (Saris)" data-fee="180">ሳሪስ (180 ብር)</option>
+                    <option value="ላፍቶ (Lafito / ቃሊቲ)" data-fee="250">ላፍቶ / ቃሊቲ (250 ብር)</option>
+                </select>
+                
+                <label for="payment-method">የክፍያ አማራጭ ይምረጡ፡</label>
+                <select id="payment-method">
+                    <option value="ቴሌብር (Telebirr)">ቴሌብር (Telebirr)</option>
+                    <option value="የኢትዮጵያ ንግድ ባንክ (CBE)">የኢትዮጵያ ንግድ ባንክ (CBE)</option>
+                </select>
+
+                <!-- የባንክ እና የቴሌብር ቁጥሮች ማሳያ ሳጥን -->
+                <div style="background: #e7f5ff; padding: 10px; border-radius: 6px; margin: 10px 0; border: 1px solid #74c0fc; font-size: 13px; text-align: left;">
+                    <p style="margin: 0 0 5px 0; font-weight: bold; color: #005580;">💳 የክፍያ መመሪያ፦</p>
+                    <p style="margin: 3px 0;">• ቴሌብር ቁጥር፦ <b>0911223344</b> (ማክቤል ካሰዬ)</p>
+                    <p style="margin: 3px 0;">• ንግድ ባንክ (CBE)፦ <b>1000123456789</b></p>
+                    <p style="margin: 5px 0 0 0; color: #d9534f; font-size: 12px;">* እባክዎ ከፍሎ ማጠናቀቂያ ላይ የትራንዛክሽን ቁጥሩን ከታች ያስገቡ።</p>
+                </div>
+
+                <!-- የክፍያ ማረጋገጫ (Transaction ID) ማስገቢያ - ካልተሞላ ትዕዛዙ አይሄድም -->
+                <label for="transaction-id">የክፍያ ማረጋገጫ (Transaction ID / Receipt No):</label>
+                <input type="text" id="transaction-id" placeholder="ለምሳሌ፦ ET12345678" required>
+            </div>
             <label for="payment-method">የክፍያ አማራጭ ይምረጡ፡</label>
             <select id="payment-method">
                 <option value="ቴሌብር (Telebirr)">ቴሌብር (Telebirr)</option>
