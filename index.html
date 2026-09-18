@@ -15,6 +15,14 @@
         </div>
     </header>
 
+    <!-- የከረጢት እና የትዕዛዝ ማጠቃለያ ክፍል (ከላይ የተደረገ) -->
+    <section class="checkout-section">
+        <h2>🛍️ የከረጢትዎ ይዘት (Cart)</h2>
+        <div id="cart-items">ካርቱ ባዶ ነው።</div>
+        <p id="total-price">ጠቅላላ ዋጋ: 0 ብር</p>
+        <button onclick="checkout(event)" class="checkout-btn">ትዕዛዝ ወደ ቴሌግራም ላክ</button>
+    </section>
+
     <!-- የምርት ምድቦች (Categories) -->
     <div class="categories">
         <button onclick="filterProducts('all')">ሁሉም</button>
@@ -29,14 +37,6 @@
             <!-- ምርቶች በ JavaScript አማካኝነት እዚህ ይገባሉ -->
         </div>
     </main>
-
-    <!-- የትዕዛዝ ማረጋገጫ ክፍል (Checkout Section) -->
-    <section class="checkout-section">
-        <h2>የእርስዎ የትዕዛዝ ማጠቃለያ</h2>
-        <div id="cart-items">ካርቱ ባዶ ነው።</div>
-        <p id="total-price">ጠቅላላ ዋጋ: 0 ብር</p>
-        <button onclick="checkout(event)" class="checkout-btn">ትዕዛዝ ወደ ቴሌግራም ላክ</button>
-    </section>
 
     <script src="script.js"></script>
 </body>
