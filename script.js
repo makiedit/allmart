@@ -557,3 +557,28 @@ window.onload = function() {
     renderProducts(products);
     checkAdminAccess();
 };
+function toggleTheme() {
+    const body = document.body;
+    const themeBtn = document.getElementById("theme-toggle-btn");
+    
+    body.classList.toggle("dark-mode");
+    
+    if (body.classList.contains("dark-mode")) {
+        themeBtn.innerText = "☀️";
+        localStorage.setItem("theme", "dark");
+    } else {
+        themeBtn.innerText = "🌙";
+        localStorage.setItem("theme", "light");
+    }
+}
+
+// ዌብሳይቱ ሲከፈት የነበረውን ገጽታ (Theme) ማስተካከል
+window.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem("theme");
+    const themeBtn = document.getElementById("theme-toggle-btn");
+    
+    if (savedTheme === "dark") {
+        document.body.classList.add("dark-mode");
+        if (themeBtn) themeBtn.innerText = "☀️";
+    }
+});
