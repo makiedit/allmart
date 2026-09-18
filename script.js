@@ -1,26 +1,67 @@
-// የምርት ዝርዝሮች (Products)
+// የምርት ዝርዝሮች ከነ ምድባቸው (Products with Categories)
 let products = [
-    { id: 1, name: "የምግብ ዘይት (Cooking Oil)", price: 950, image: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500&auto=format&fit=crop&q=60" }
-    // ሌሎች ምርቶችዎ እዚህ ይቀጥላሉ
+    { id: 1, name: "ስማርት ስልኮች (Smartphones)", price: 15000, category: "electronics", image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500&auto=format&fit=crop&q=60" },
+    { id: 2, name: "ላፕቶፕ (Laptop)", price: 35000, category: "electronics", image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&auto=format&fit=crop&q=60" },
+    { id: 3, name: "የወንዶች ጃኬት (Jacket)", price: 2500, category: "clothes", image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500&auto=format&fit=crop&q=60" },
+    { id: 4, name: "የሴቶች ቀሚስ (Dress)", price: 1800, category: "clothes", image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=500&auto=format&fit=crop&q=60" },
+    { id: 5, name: "የማቀዝቀዣ ማሽን (Refrigerator)", price: 45000, category: "appliances", image: "https://images.unsplash.com/photo-1584568694244-14fbdf82bd1e?w=500&auto=format&fit=crop&q=60" },
+    { id: 6, name: " בלንደር (Blender)", price: 3200, category: "appliances", image: "https://images.unsplash.com/photo-1570222094114-d074f7e2455c?w=500&auto=format&fit=crop&q=60" }
 ];
 
 let cart = [];
 
-// የቴሌግራም ቦት መረጃዎች (ትክክለኛው የ Chat ID እና Token የተካተቱበት)
+// የቴሌግራም ቦት መረጃዎች (ትክክለኛው ቶከን እና Chat ID: 8885724020)
 const botToken = "8981438302:AAH19L3Uk-6XYCQRo86WEtI0-v59gSyf8AE";
-const chatId = "8885724820";
+const chatId = "8885724020";
+
+// ምርቶችን በዌብሳይት ላይ ማሳያ
+function renderProducts(items) {
+    const productList = document.getElementById("product-list");
+    if (!productList) return;
+    
+    productList.innerHTML = "";
+    items.forEach(product => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.innerHTML = `
+            <img src="${product.image}" alt="${product.name}" style="width:100%; height:150px; object-fit:cover; border-radius:8px;">
+            <h3>${product.name}</h3>
+            <p style="color: green; font-weight: bold;">${product.price} ብር</p>
+            <button onclick="addToCart(${product.id})" style="background: #0088cc; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer;">ወደ ካርት ጨምር</button>
+        `;
+        productList.appendChild(card);
+    });
+}
+
+// በምድብ (Category) ማጣሪያ
+function filterProducts(category) {
+    if (category === 'all') {
+        renderProducts(products);
+    } else {
+        const filtered = products.filter(p => p.category === category);
+        renderProducts(filtered);
+    }
+}
+
+// ምርቶችን ወደ ካርት ማከያዎች
+function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    if (product) {
+        cart.push(product);
+        alert(`${product.name} ወደ ካርት ገብቷል!`);
+    }
+}
 
 // ትዕዛዝ ወደ ቴሌግራም ቦት የሚልክ ፊንክሽን
 function sendOrderToTelegram(orderDetails) {
     const messageText = `🛒 አዲስ ትዕዛዝ መጥቷል!\n\n${orderDetails}`;
-    
     const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(messageText)}`;
 
     fetch(url)
         .then(response => response.json())
         .then(data => {
             console.log("ትዕዛዙ በትክክል ተልኳል:", data);
-            alert("ትዕዛዝዎ በሳካ ሁኔታ ወደ ቴሌግራም ተልኳል!");
+            alert("ትዕዛዝዎ በሳካ ሁኔታ ወደ ቴሌግራም ቦት ተልኳል!");
         })
         .catch(error => {
             console.error("የትዕዛዝ መላክ ስህተት:", error);
@@ -48,3 +89,8 @@ function checkout(event) {
     sendOrderToTelegram(orderSummary);
     cart = [];
 }
+
+// ገጹ ሲከፈት ምርቶችን በነባሪ መጫን
+window.onload = function() {
+    renderProducts(products);
+};
