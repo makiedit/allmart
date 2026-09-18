@@ -473,9 +473,16 @@ header {
     border: 3px dashed #ff4500;
 }
 
-.compare-content, .admin-content {
+.compare-content {
     max-width: 450px !important;
     text-align: center !important;
+}
+
+.admin-content {
+    max-width: 480px !important;
+    text-align: center !important;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .compare-selectors {
