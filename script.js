@@ -509,8 +509,9 @@ function checkout(event) {
     const paymentMethod = document.getElementById("payment-method").value;
     const transactionId = document.getElementById("transaction-id").value.trim();
 
+    // ጥብቅ ማረጋገጫ፦ ስም፣ ስልክ፣ አካባቢ ወይም Transaction ID ባዶ ከሆነ ትዕዛዙ በፋፁም ወደ ቦት አይላክም!
     if (!name || !phone || !location || !transactionId) {
-        alert("እባክዎ ሙሉ ስምዎን፣ ስልክ ቁጥርዎን፣ የመላኪያ አካባቢዎን እና የክፍያ ማረጋገጫ (Transaction ID) ያስገቡ!");
+        alert("⚠️ ስህተት፡ እባክዎ ሙሉ ስምዎን፣ ስልክ ቁጥርዎን፣ አካባቢዎን እና የክፍያ ማረጋገጫ (Transaction ID) በትክክል ያስገቡ! ያለ ክፍያ ማረጋገጫ ትዕዛዝ ማስተላለፍ አይቻልም።");
         return;
     }
 
@@ -540,6 +541,7 @@ function checkout(event) {
     orderSummary += `\n🚚 የማስረከቢያ ክፍያ: ${deliveryFee} ብር`;
     orderSummary += `\n💰 ጠቅላላ የሚከፈል: ${grandTotal} ብር`;
 
+    // ትዕዛዙን ወደ ቴሌግራም መላክ
     sendOrderToTelegram(orderSummary);
     
     // ፎርሙን ማጽዳት
