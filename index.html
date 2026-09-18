@@ -11,23 +11,23 @@
     <header>
         <div class="logo">🛒 ማክቤል ማርት</div>
         
-        <!-- የድምጽ ፍለጋ እና የጽሁፍ ፍለጋ ማዕከል -->
         <div class="search-container">
             <input type="text" id="search-input" placeholder="ምርቶችን ይፈልጉ..." onkeyup="searchProducts()">
             <button onclick="startVoiceSearch()" class="mic-btn" title="በድምጽ ይፈልጉ">🎤</button>
         </div>
 
-        <!-- የምንዛሬ መቀየሪያ (Currency Converter) -->
-        <div class="currency-selector">
-            <select id="currency-select" onchange="updateCurrency()">
-                <option value="ETB">ብር (ETB)</option>
-                <option value="USD">ዶላር ($)</option>
-                <option value="EUR">ዩሮ (€)</option>
-            </select>
+        <div class="header-actions">
+            <div class="currency-selector">
+                <select id="currency-select" onchange="updateCurrency()">
+                    <option value="ETB">ብር (ETB)</option>
+                    <option value="USD">ዶላር ($)</option>
+                    <option value="EUR">ዩሮ (€)</option>
+                </select>
+            </div>
         </div>
     </header>
 
-    <!-- የዕድል መንኮራኩር (Spin Wheel) ማስታወቂያ ሰንደቅ -->
+    <!-- የዕድል መንኮራኩር ማስታወቂያ ሰንደቅ -->
     <div class="spin-banner">
         <span>🎁 ዕድልዎን ሞክረው ቅናሽ ማግኘት ይፈልጋሉ?</span>
         <button onclick="openSpinModal()">ዕድልዎን ያሽከርክሩ!</button>
@@ -39,7 +39,6 @@
         
         <div id="cart-items">ካርቱ ባዶ ነው።</div>
         
-        <!-- የኩፖን ኮድ ማስገቢያ ክፍል -->
         <div class="promo-section">
             <input type="text" id="promo-input" placeholder="የኩፖን ኮድ ያስገቡ (ለምሳሌ፦ MAKI2026)">
             <button onclick="applyPromoCode()" class="promo-btn">ተግብር</button>
@@ -53,7 +52,6 @@
             <p id="total-price">ጠቅላላ ድምር: 0 ብር</p>
         </div>
 
-        <!-- የደንበኛ መረጃዎች ማስገቢያ ፎርም -->
         <div class="customer-form">
             <h3>የመላኪያ መረጃዎ</h3>
             <input type="text" id="customer-name" placeholder="ሙሉ ስምዎ (ለምሳሌ፦ ማክቤል ካሰዬ)" required>
@@ -98,7 +96,7 @@
         </div>
     </main>
 
-    <!-- 1. የምርት ዝርዝር ማሳያ እና ተዛማጅ እቃዎች ፖፕአፕ (Product Modal) -->
+    <!-- 1. የምርት ዝርዝር እና ተዛማጅ እቃዎች ፖፕአፕ -->
     <div id="product-modal" class="modal">
         <div class="modal-content large-modal">
             <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -112,15 +110,13 @@
                 </div>
                 <div class="modal-right">
                     <h3>🔗 ተዛማጅ እቃዎች (Related Items)</h3>
-                    <div id="related-items-container" class="related-items-grid">
-                        <!-- ተዛማጅ እቃዎች እዚህ ይገባሉ -->
-                    </div>
+                    <div id="related-items-container" class="related-items-grid"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 2. የዕድል መንኮራኩር ሞዳል (Spin Wheel Modal) -->
+    <!-- 2. የዕድል መንኮራኩር ሞዳል -->
     <div id="spin-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeSpinModal()">&times;</span>
@@ -132,24 +128,52 @@
         </div>
     </div>
 
-    <!-- 3. የእቃ ማወዳደሪያ ሞዳል (Comparison Modal) -->
+    <!-- 3. የእቃ ማወዳደሪያ ሞዳል -->
     <div id="compare-modal" class="modal">
         <div class="modal-content compare-content">
             <span class="close-btn" onclick="closeCompareModal()">&times;</span>
             <h2>⚖️ እቃዎችን ማወዳደሪያ</h2>
             <p style="font-size: 13px; color: #666;">ለማወዳደር የሚፈልጓቸውን 2 እቃዎች ይምረጡ፡</p>
-            
             <div class="compare-selectors">
-                <select id="compare-1" onchange="updateComparison()">
-                    <option value="">-- የመጀመሪያውን እቃ ይምረጡ --</option>
-                </select>
-                <select id="compare-2" onchange="updateComparison()">
-                    <option value="">-- ሁለተኛውን እቃ ይምረጡ --</option>
-                </select>
+                <select id="compare-1" onchange="updateComparison()"><option value="">-- የመጀመሪያውን እቃ ይምረጡ --</option></select>
+                <select id="compare-2" onchange="updateComparison()"><option value="">-- ሁለተኛውን እቃ ይምረጡ --</option></select>
+            </div>
+            <div id="compare-result-box" class="compare-result-box">እባክዎ ንፅፅር ለማየት ሁለቱን እቃዎች ይምረጡ።</div>
+        </div>
+    </div>
+
+    <!-- 4. የአስተዳዳሪ ማዕከል ሞዳል (Admin Dashboard) - ሊንኩ ላይ ?admin=true ሲገባ ብቻ የሚከፈት -->
+    <div id="admin-modal" class="modal">
+        <div class="modal-content admin-content">
+            <span class="close-btn" onclick="closeAdminModal()">&times;</span>
+            
+            <!-- የመግቢያ ክፍል (Login Form) -->
+            <div id="admin-login-box">
+                <h2>🔐 የአስተዳዳሪ መግቢያ</h2>
+                <p style="font-size: 13px; color: #666;">እባክዎ የይለፍ ቃል ያስገቡ (የይለፍ ቃል: maki2026)</p>
+                <input type="password" id="admin-pass-input" placeholder="የይለፍ ቃል ያስገቡ..." style="width:100%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:6px; box-sizing:border-box;">
+                <button onclick="verifyAdminPassword()" class="modal-add-btn">ግባ</button>
+                <p id="admin-error-msg" style="color:red; font-size:13px; margin-top:10px;"></p>
             </div>
 
-            <div id="compare-result-box" class="compare-result-box">
-                እባክዎ ንፅፅር ለማየት ሁለቱን እቃዎች ይምረጡ።
+            <!-- ዳሽቦርድ ክፍል (Dashboard Control Panel) -->
+            <div id="admin-dashboard-box" style="display: none;">
+                <h2>⚙️ ማክቤል ማርት አድሚን ፓነል</h2>
+                <p style="font-size: 13px; color: #2b8a3e; font-weight: bold;">ስርዓቱን በተሳካ ሁኔታ መቆጣጠር ይችላሉ።</p>
+                
+                <div style="background:#f1f3f5; padding:15px; border-radius:8px; margin-top:15px; text-align:left;">
+                    <h3 style="margin-top:0; font-size:15px; color:#0088cc;">➕ አዲስ እቃ ወደ ሱቁ መጨመር</h3>
+                    <input type="text" id="new-p-name" placeholder="የእቃው ስም" style="width:100%; padding:8px; margin-bottom:8px; border:1px solid #ccc; border-radius:4px; box-sizing:border-box;">
+                    <input type="number" id="new-p-price" placeholder="ዋጋ (በብር)" style="width:100%; padding:8px; margin-bottom:8px; border:1px solid #ccc; border-radius:4px; box-sizing:border-box;">
+                    <select id="new-p-category" style="width:100%; padding:8px; margin-bottom:8px; border:1px solid #ccc; border-radius:4px; box-sizing:border-box;">
+                        <option value="electronics">ኤሌክትሮኒክስ (Electronics)</option>
+                        <option value="clothes">ልብስ (Clothes)</option>
+                        <option value="appliances">የቤት እቃዎች (Appliances)</option>
+                    </select>
+                    <input type="text" id="new-p-img" placeholder="የፎቶ ሊንክ (Image URL)" style="width:100%; padding:8px; margin-bottom:8px; border:1px solid #ccc; border-radius:4px; box-sizing:border-box;">
+                    <input type="text" id="new-p-desc" placeholder="አጭር መግለጫ" style="width:100%; padding:8px; margin-bottom:12px; border:1px solid #ccc; border-radius:4px; box-sizing:border-box;">
+                    <button onclick="addNewProduct()" class="modal-add-btn" style="margin-top:0;">እቃውን ጫን / ሐምር</button>
+                </div>
             </div>
         </div>
     </div>
