@@ -1,23 +1,26 @@
-// የምርት ዝርዝሮች ከነ ምድባቸው (Products with Categories)
+// የምርት ዝርዝሮች (ከ HTML ምድቦች ጋር በትክክል የተስተካከሉ)
 let products = [
     { id: 1, name: "ስማርት ስልኮች (Smartphones)", price: 15000, category: "electronics", image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500&auto=format&fit=crop&q=60" },
     { id: 2, name: "ላፕቶፕ (Laptop)", price: 35000, category: "electronics", image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&auto=format&fit=crop&q=60" },
     { id: 3, name: "የወንዶች ጃኬት (Jacket)", price: 2500, category: "clothes", image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500&auto=format&fit=crop&q=60" },
     { id: 4, name: "የሴቶች ቀሚስ (Dress)", price: 1800, category: "clothes", image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=500&auto=format&fit=crop&q=60" },
     { id: 5, name: "የማቀዝቀዣ ማሽን (Refrigerator)", price: 45000, category: "appliances", image: "https://images.unsplash.com/photo-1584568694244-14fbdf82bd1e?w=500&auto=format&fit=crop&q=60" },
-    { id: 6, name: " בלንደር (Blender)", price: 3200, category: "appliances", image: "https://images.unsplash.com/photo-1570222094114-d074f7e2455c?w=500&auto=format&fit=crop&q=60" }
+    { id: 6, name: "ብለንደር (Blender)", price: 3200, category: "appliances", image: "https://images.unsplash.com/photo-1570222094114-d074f7e2455c?w=500&auto=format&fit=crop&q=60" }
 ];
 
 let cart = [];
 
-// የቴሌግራም ቦት መረጃዎች (ትክክለኛው ቶከን እና Chat ID: 8885724020)
+// የቴሌግራም ቦት መረጃዎች (ትክክለኛው ቶከን እና Chat ID)
 const botToken = "8981438302:AAH19L3Uk-6XYCQRo86WEtI0-v59gSyf8AE";
 const chatId = "8885724020";
 
 // ምርቶችን በዌብሳይት ላይ ማሳያ
 function renderProducts(items) {
     const productList = document.getElementById("product-list");
-    if (!productList) return;
+    if (!productList) {
+        console.error("product-list ID ያለው ኤለመንት አልተገኘም!");
+        return;
+    }
     
     productList.innerHTML = "";
     items.forEach(product => {
@@ -35,7 +38,7 @@ function renderProducts(items) {
 
 // በምድብ (Category) ማጣሪያ
 function filterProducts(category) {
-    if (category === 'all') {
+    if (category === 'all' || category === 'ሁሉም') {
         renderProducts(products);
     } else {
         const filtered = products.filter(p => p.category === category);
