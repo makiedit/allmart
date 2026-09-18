@@ -10,24 +10,64 @@
     <!-- የላይኛው ማሰሻ (Header) -->
     <header>
         <div class="logo">🛒 ማክቤል ማርት</div>
-        <div class="search-bar">
+        
+        <!-- የድምጽ ፍለጋ እና የጽሁፍ ፍለጋ ማዕከል -->
+        <div class="search-container">
             <input type="text" id="search-input" placeholder="ምርቶችን ይፈልጉ..." onkeyup="searchProducts()">
+            <button onclick="startVoiceSearch()" class="mic-btn" title="በድምጽ ይፈልጉ">🎤</button>
+        </div>
+
+        <!-- የምንዛሬ መቀየሪያ (Currency Converter) -->
+        <div class="currency-selector">
+            <select id="currency-select" onchange="updateCurrency()">
+                <option value="ETB">ብር (ETB)</option>
+                <option value="USD">ዶላር ($)</option>
+                <option value="EUR">ዩሮ (€)</option>
+            </select>
         </div>
     </header>
 
-    <!-- የከረጢት እና የደንበኛ መረጃ ማካተቻ ክፍል (ከላይ) -->
+    <!-- የዕድል መንኮራኩር (Spin Wheel) ማስታወቂያ ሰንደቅ -->
+    <div class="spin-banner">
+        <span>🎁 ዕድልዎን ሞክረው ቅናሽ ማግኘት ይፈልጋሉ?</span>
+        <button onclick="openSpinModal()">ዕድልዎን ያሽከርክሩ!</button>
+    </div>
+
+    <!-- የከረጢት እና የትዕዛዝ ማጠናቀቂያ ክፍል (ከላይ) -->
     <section class="checkout-section">
         <h2>🛍️ የከረጢትዎ ይዘት እና የትዕዛዝ ማጠናቀቂያ</h2>
         
         <div id="cart-items">ካርቱ ባዶ ነው።</div>
-        <p id="total-price">ጠቅላላ ዋጋ: 0 ብር</p>
+        
+        <!-- የኩፖን ኮድ ማስገቢያ ክፍል -->
+        <div class="promo-section">
+            <input type="text" id="promo-input" placeholder="የኩፖን ኮድ ያስገቡ (ለምሳሌ፦ MAKI2026)">
+            <button onclick="applyPromoCode()" class="promo-btn">ተግብር</button>
+        </div>
+        <p id="promo-message" class="promo-msg"></p>
+
+        <div class="price-summary">
+            <p id="subtotal-price">የእቃዎች ዋጋ: 0 ብር</p>
+            <p id="discount-price" style="color: #d9534f; display: none;">የቅናሽ መጠን: 0 ብር</p>
+            <p id="delivery-price">የማስረከቢያ ክፍያ: 0 ብር</p>
+            <p id="total-price">ጠቅላላ ድምር: 0 ብር</p>
+        </div>
 
         <!-- የደንበኛ መረጃዎች ማስገቢያ ፎርም -->
         <div class="customer-form">
             <h3>የመላኪያ መረጃዎ</h3>
             <input type="text" id="customer-name" placeholder="ሙሉ ስምዎ (ለምሳሌ፦ ማክቤል ካሰዬ)" required>
             <input type="text" id="customer-phone" placeholder="ስልክ ቁጥር (ለምሳሌ፦ 0911223344)" required>
-            <input type="text" id="customer-location" placeholder="የሚገኙበት ቦታ/አድራሻ (ለምሳሌ፦ አዲስ አበባ፣ ቦሌ)" required>
+            
+            <label for="customer-location">የሚገኙበት አካባቢ (ለመላኪያ ክፍያ):</label>
+            <select id="customer-location" onchange="updateDeliveryFee()">
+                <option value="" data-fee="0">-- አካባቢ ይምረጡ --</option>
+                <option value="ቦሌ (Bole)" data-fee="150">ቦሌ (150 ብር)</option>
+                <option value="ፒያሳ (Piassa)" data-fee="200">ፒያሳ (200 ብር)</option>
+                <option value="መገናኛ (Megenagna)" data-fee="120">መገናኛ (120 ብር)</option>
+                <option value="ሳሪስ (Saris)" data-fee="180">ሳሪስ (180 ብር)</option>
+                <option value="ላፍቶ (Lafito / ቃሊቲ)" data-fee="250">ላፍቶ / ቃሊቲ (250 ብር)</option>
+            </select>
             
             <label for="payment-method">የክፍያ አማራጭ ይምረጡ፡</label>
             <select id="payment-method">
@@ -40,12 +80,15 @@
         <button onclick="checkout(event)" class="checkout-btn">ትዕዛዝ ወደ ቴሌግራም ላክ</button>
     </section>
 
-    <!-- የምርት ምድቦች (Categories) -->
-    <div class="categories">
-        <button onclick="filterProducts('all')">ሁሉም</button>
-        <button onclick="filterProducts('electronics')">ኤሌክትሮኒክስ</button>
-        <button onclick="filterProducts('clothes')">ልብስ</button>
-        <button onclick="filterProducts('appliances')">የቤት እቃዎች</button>
+    <!-- የምርት ምድቦች እና የማወዳደሪያ ቁልፍ -->
+    <div class="category-compare-bar">
+        <div class="categories">
+            <button onclick="filterProducts('all')">ሁሉም</button>
+            <button onclick="filterProducts('electronics')">ኤሌክትሮኒክስ</button>
+            <button onclick="filterProducts('clothes')">ልብስ</button>
+            <button onclick="filterProducts('appliances')">የቤት እቃዎች</button>
+        </div>
+        <button onclick="openCompareModal()" class="compare-trigger-btn">⚖️ እቃዎችን አወዳድሮ ማየት</button>
     </div>
 
     <!-- ዋናው የምርት ማሳያ ክፍል -->
@@ -54,6 +97,52 @@
             <!-- ምርቶች በ JavaScript አማካኝነት እዚህ ይገባሉ -->
         </div>
     </main>
+
+    <!-- 1. የምርት ዝርዝር ማሳያ ፖፕአፕ (Product Modal) -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <img id="modal-img" src="" alt="">
+            <h2 id="modal-title"></h2>
+            <p id="modal-desc" style="color: #666; font-size: 14px; margin: 10px 0;"></p>
+            <p id="modal-price" style="color: #2b8a3e; font-weight: bold; font-size: 18px;"></p>
+            <button id="modal-add-btn" class="modal-add-btn">ወደ ካርት ጨምር</button>
+        </div>
+    </div>
+
+    <!-- 2. የዕድል መንኮራኩር ሞዳል (Spin Wheel Modal) -->
+    <div id="spin-modal" class="modal">
+        <div class="modal-content spin-content">
+            <span class="close-btn" onclick="closeSpinModal()">&times;</span>
+            <h2>🎡 ዕድልዎን ያሽከርክሩ!</h2>
+            <p>መንኮራኩሩን በማሽከርከር ልዩ የቅናሽ ኩፖን ያሸንፉ!</p>
+            <div id="wheel-box" class="wheel-box">🎁 ይጫኑ</div>
+            <button onclick="spinWheel()" id="spin-btn" class="spin-action-btn">አሽከርክር (Spin)</button>
+            <p id="spin-result" style="margin-top: 15px; font-weight: bold; color: #2b8a3e;"></p>
+        </div>
+    </div>
+
+    <!-- 3. የእቃ ማወዳደሪያ ሞዳል (Comparison Modal) -->
+    <div id="compare-modal" class="modal">
+        <div class="modal-content compare-content">
+            <span class="close-btn" onclick="closeCompareModal()">&times;</span>
+            <h2>⚖️ እቃዎችን ማወዳደሪያ</h2>
+            <p style="font-size: 13px; color: #666;">ለማወዳደር የሚፈልጓቸውን 2 እቃዎች ይምረጡ፡</p>
+            
+            <div class="compare-selectors">
+                <select id="compare-1" onchange="updateComparison()">
+                    <option value="">-- የመጀመሪያውን እቃ ይምረጡ --</option>
+                </select>
+                <select id="compare-2" onchange="updateComparison()">
+                    <option value="">-- ሁለተኛውን እቃ ይምረጡ --</option>
+                </select>
+            </div>
+
+            <div id="compare-result-box" class="compare-result-box">
+                እባክዎ ንፅፅር ለማየት ሁለቱን እቃዎች ይምረጡ።
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
