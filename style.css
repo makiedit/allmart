@@ -508,3 +508,62 @@ header {
     font-size: 14px;
     min-height: 100px;
 }
+/* የ Dark Mode ቀለሞች እና ዲዛይን */
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+body.dark-mode header {
+    background: linear-gradient(135deg, #1f1f1f, #2c2c2c);
+}
+
+body.dark-mode .checkout-section,
+body.dark-mode .product-card,
+body.dark-mode .customer-form,
+body.dark-mode .price-summary,
+body.dark-mode #cart-items,
+body.dark-mode .compare-result-box,
+body.dark-mode .modal-content {
+    background-color: #1e1e1e !important;
+    color: #e0e0e0 !important;
+    border-color: #333 !important;
+}
+
+body.dark-mode .product-card h3 {
+    color: #ffffff;
+}
+
+body.dark-mode .search-container {
+    background: #2c2c2c;
+}
+
+body.dark-mode .search-container input {
+    background: transparent;
+    color: white;
+}
+
+body.dark-mode .categories button {
+    background: #2c2c2c;
+    color: #e0e0e0;
+}
+
+body.dark-mode .categories button:hover {
+    background: #0088cc;
+    color: white;
+}
+
+/* የቁልፉ ዲዛይን */
+.theme-btn {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    font-size: 18px;
+    padding: 8px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.theme-btn:hover {
+    background: rgba(255,255,255,0.4);
+}
