@@ -249,6 +249,6 @@ function deleteProduct(id) {
 
 // መተግበሪያው ሲከፈት ነባሪ ምርቶችን ማሳየት
 renderProducts(products);
-// የተለግራም ቦት መረጃ 
+ የተለግራም ቦት መረጃ 
 const botToken="8981438302:AAH19L3Uk-6XYCQRo86WEtI0-v59gSyf8AE";
 const chatId="8885724020";
