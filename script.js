@@ -204,7 +204,7 @@ function updateComparison() {
     `;
 }
 
-// የተሻሻለ ተዛማጅ እቃዎች ማጣሪያ (እንደ টিরቪ፣ ስልክ እና የመሳሰሉትን በአይነታቸው የሚያሳይ)
+// ትክክለኛውን የአይነት ማጣሪያ (Smart Strict Matching ለ ቲቪ፣ ስልክ፣ ጃኬት፣ ወዘተ) የሚያደርግ ፋንክሽን
 function openModal(productId) {
     const product = products.find(p => p.id === productId);
     if (!product) return;
@@ -224,17 +224,37 @@ function openModal(productId) {
         closeModal();
     };
 
-    // የዕቃውን ስም ዋና ቃላት በመውሰድ ትክክለኛውን የአይነት ተዛማጅነት (Smart Keyword Matching) መፈለግ
+    // የዕቃውን ስም በመመርመር ትክክለኛውን ዓይነት ብቻ (ለምሳሌ ቲቪ ከሆነ ሌሎች ቲቪዎችን ብቻ) ማጣራት
     const relatedContainer = document.getElementById("related-items-container");
     
-    // ከዕቃው ስም ዋናውን ቃል ማውጣት (ለምሳሌ "ቲቪ", "ስልክ", "ላፕቶፕ", "ጃኬት")
-    let keywords = product.name.split(" ")[0].toLowerCase();
+    let searchKeyword = "";
+    let nameLower = product.name.toLowerCase();
     
-    // ከእሱ ጋር ተመሳሳይ ቁልፍ ቃል ያላቸውን ወይም ተመሳሳይ ምድብ ውስጥ ያሉትን ማጣራት
-    const relatedProducts = products.filter(p => 
-        p.id !== product.id && 
-        (p.name.toLowerCase().includes(keywords) || p.category === product.category)
-    ).slice(0, 3);
+    if (nameLower.includes("ቲቪ") || nameLower.includes("tv")) {
+        searchKeyword = "tv";
+    } else if (nameLower.includes("ስልክ") || nameLower.includes("smartphone")) {
+        searchKeyword = "ስልክ";
+    } else if (nameLower.includes("ላፕቶፕ") || nameLower.includes("laptop")) {
+        searchKeyword = "ላፕቶፕ";
+    } else if (nameLower.includes("ጃኬት") || nameLower.includes("jacket")) {
+        searchKeyword = "ጃኬት";
+    } else if (nameLower.includes("ቀሚስ") || nameLower.includes("dress")) {
+        searchKeyword = "ቀሚስ";
+    } else {
+        searchKeyword = product.category; // ካልተገኘ በምድብ ይይዛል
+    }
+
+    const relatedProducts = products.filter(p => {
+        let pLower = p.name.toLowerCase();
+        return p.id !== product.id && (
+            (searchKeyword === "tv" && (pLower.includes("ቲቪ") || pLower.includes("tv"))) ||
+            (searchKeyword === "ስልክ" && (pLower.includes("ስልክ") || pLower.includes("smartphone"))) ||
+            (searchKeyword === "ላፕቶፕ" && (pLower.includes("ላፕቶፕ") || pLower.includes("laptop"))) ||
+            (searchKeyword === "ጃኬት" && (pLower.includes("ጃኬት") || pLower.includes("jacket"))) ||
+            (searchKeyword === "ቀሚስ" && (pLower.includes("ቀሚስ") || pLower.includes("dress"))) ||
+            (searchKeyword === product.category && p.category === product.category)
+        );
+    }).slice(0, 3);
     
     let relatedHtml = "";
     relatedProducts.forEach(rel => {
@@ -366,8 +386,8 @@ function updateCartUI() {
     let grandTotal = discountedSubtotal + deliveryFee;
 
     cartItemsContainer.innerHTML = html;
-    subtotalPriceGroupText = subtotal * rate;
-    subtotalPriceElement.innerHTML = `የእቃዎች ዋጋ: ${subtotalPriceGroupText.toFixed(2)} ${symbol}`;
+    let subtotalVal = subtotal * rate;
+    subtotalPriceElement.innerHTML = `የእቃዎች ዋጋ: ${subtotalVal.toFixed(2)} ${symbol}`;
 
     if (discountRate > 0) {
         discountPriceElement.style.display = "block";
@@ -377,7 +397,7 @@ function updateCartUI() {
     }
 
     deliveryPriceElement.innerHTML = `የማስረከቢያ ክፍያ: ${(deliveryFee * rate).toFixed(2)} ${symbol}`;
-    totalPriceElement.innerHTML = `ጠቅላላ ድምር: ${(grandTotal * rate).toFixed(2)} ${symbol}`;
+    totalPriceElement.innerHTML = `ጠቅላላ ድር: ${(grandTotal * rate).toFixed(2)} ${symbol}`;
 }
 
 function sendOrderToTelegram(orderDetails) {
