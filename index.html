@@ -17,14 +17,18 @@
         </div>
 
         <div class="header-actions">
-            <div class="currency-selector">
-                <select id="currency-select" onchange="updateCurrency()">
-                    <option value="ETB">ብር (ETB)</option>
-                    <option value="USD">ዶላር ($)</option>
-                    <option value="EUR">ዩሮ (€)</option>
-                </select>
-            </div>
-        </div>
+    <!-- የ Dark/Light መቀየሪያ ቁልፍ -->
+    <button onclick="toggleTheme()" id="theme-toggle-btn" class="theme-btn" title="ገጽታ ቀይር">🌙</button>
+
+    <div class="currency-selector">
+        <select id="currency-select" onchange="updateCurrency()">
+            <option value="ETB">ብር (ETB)</option>
+            <option value="USD">ዶላር ($)</option>
+            <option value="EUR">ዩሮ (€)</option>
+        </select>
+    </div>
+</div>
+        
     </header>
 
     <!-- የዕድል መንኮራኩር ማስታወቂያ ሰንደቅ -->
