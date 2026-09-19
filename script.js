@@ -1,6 +1,6 @@
 // --- 1. ሙሉ 45 የምርት ዝርዝሮች (እያንዳንዱ ምድብ 15 እቃዎች) ---
 let products = [
-    // --- ኤሌክትሮኒክስ (Electronics) ---
+    // --- ኤሌክትሮኒክስ (Electronics - 15 እቃዎች) ---
     { id: 1, name: "ስማርት ስልክ (Smartphone)", price: 15000, category: "electronics", image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300", description: "ጥራት ያለው ዘመናዊ ስማርት ስልክ ከረጅም ባትሪ ጋር።" },
     { id: 2, name: "ላፕቶፕ (Laptop)", price: 38000, category: "electronics", image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=300", description: "ፈጣን እና ለአሰራር ምቹ የሆነ ኮር i5 ላፕቶፕ።" },
     { id: 3, name: "ታብሌት (Tablet)", price: 12000, category: "electronics", image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=300", description: "ለጥናት እና ለመዝናኛ የሚሆን ትልቅ ስክሪን ያለው ታብሌት።" },
@@ -12,18 +12,18 @@ let products = [
     { id: 9, name: "ጌምንግ ኮንሶል (Gaming Console)", price: 55000, category: "electronics", image: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=300", description: "ዘመናዊ የቪዲዮ ጨዋታዎችን ያለ ምንም ማቋረጥ ማጫወቻ።" },
     { id: 10, name: "ፓወር ባንክ 20000mAh (Power Bank)", price: 2500, category: "electronics", image: "https://images.unsplash.com/photo-1609592424155-235889745d13?w=300", description: "ስልክዎን በርካታ ጊዜ መሙላት የሚችል ሃይለኛ ፓወር ባንክ።" },
     { id: 11, name: "ኤክስተርናል ሀርድዲስክ 1TB (External HDD)", price: 4800, category: "electronics", image: "https://images.unsplash.com/photo-1531492740970-d79cbdf5d0a5?w=300", description: "ትላልቅ ፋይሎችን እና መረጃዎችን ደህንነቱ በተጠበቀ ሁኔታ መያዣ።" },
-    { id: 12, name: "ዋይ ፋይ ራውተር (Wi-Fi Router)", price: 1900, category: "electronics", image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=300", description: "ፈጣን እና ሰፊ የइन्ተርኔት ሽፋን የሚሰጥ ራውተር።" },
+    { id: 12, name: "ዋይ ፋይ ራውተር (Wi-Fi Router)", price: 1900, category: "electronics", image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=300", description: "ፈጣን እና ሰፊ የኢንተርኔት ሽፋን የሚሰጥ ራውተር።" },
     { id: 13, name: "ኤችዲ ፕሮጀክተር (HD Projector)", price: 18000, category: "electronics", image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=300", description: "ፊልሞችን እና ትምህርቶችን በትልቅ ስክሪን ማሳያ።" },
-    { id: 14, name: "ሞኒተር 24 ኢንች (Monitor 24\")", price: 11000, category: "electronics", image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=300", description: "ለகண் የማይሰቀቅ ግልጽ የኤልዲ ማሳያ ሞኒተር።" },
+    { id: 14, name: "ሞኒተር 24 ኢንች (Monitor 24\")", price: 11000, category: "electronics", image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=300", description: "ለዓይን የማያስቸግር ግልጽ የኤልዲ ማሳያ ሞኒተር።" },
     { id: 15, name: "ፕሪንተር (Printer)", price: 9500, category: "electronics", image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=300", description: "ሰነዶችን በግልጽ እና በፍጥነት ማተሚያ ማሽን።" },
 
-    // --- አልባሳት (Clothing) ---
+    // --- አልባሳት (Clothing - 15 እቃዎች) ---
     { id: 16, name: "ወንድ ጃኬት (Men Jacket)", price: 2500, category: "clothing", image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=300", description: "ጥራት ያለው እና ሞቅ የሚያደርግ የወንድ ጃኬት።" },
     { id: 17, name: "የስፖርት ጫማ (Sport Shoes)", price: 3200, category: "clothing", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300", description: "ለእግር ጉዞ እና ስፖርት ምቹ የሆነ ቀላል ጫማ።" },
-    { id: 18, name: "ክላሲክ ሱሪ (Classic Trouser)", price: 1800, category: "clothing", image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=300", description: "ለስራ እና ለተለያዩ ኑሮዎች የሚሆን ውብ ሱሪ።" },
+    { id: 18, name: "ክላሲክ ሱሪ (Classic Trouser)", price: 1800, category: "clothing", image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=300", description: "ለስራ እና ለተለያዩ መርሃ ግብሮች የሚሆን ውብ ሱሪ።" },
     { id: 19, name: "ጥራት ያለው ኮት (Formal Suit)", price: 7000, category: "clothing", image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=300", description: "ለሰርግ እና ለከፍተኛ ስብሰባዎች የሚሆን ሙሉ ልብስ።" },
     { id: 20, name: "የክረምት ሁዲ (Winter Hoodie)", price: 2200, category: "clothing", image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=300", description: "ለቀዝቃዛ ቀናት የሚሆን ምቹ እና ለስላሳ ሁዲ።" },
-    { id: 21, name: "የቆዳ ጃኬት (Leather Jacket)", price: 4500, category: "clothing", image: "https://images.unsplash.com/photo-1520975954732-35dd22299614?w=300", description: "ይግባኝ የሚል ዘመናዊ ንጹህ የቆዳ ጃኬት።" },
+    { id: 21, name: "የቆዳ ጃኬት (Leather Jacket)", price: 4500, category: "clothing", image: "https://images.unsplash.com/photo-1520975954732-35dd22299614?w=300", description: "ማራኪ እና ዘመናዊ ንጹህ የቆዳ ጃኬት።" },
     { id: 22, name: "ካዥዋል ቲሸርት (Casual T-Shirt)", price: 800, category: "clothing", image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=300", description: "በዕለት ተዕለት እንቅስቃሴዎች ለመልበስ ምቹ ቲሸርት።" },
     { id: 23, name: "ጂንስ ሱሪ (Jeans Pant)", price: 1600, category: "clothing", image: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=300", description: "ጠንካራ እና ዘላቂ ፋሽን ያለው ጂንስ ሱሪ።" },
     { id: 24, name: "የሴቶች ቀሚስ (Women Dress)", price: 3000, category: "clothing", image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=300", description: "ለድግስ እና ለልዩ ቀናት የሚሆን ማራኪ ቀሚስ።" },
@@ -34,18 +34,18 @@ let products = [
     { id: 29, name: "የጥጥ ሹራብ (Cotton Sweater)", price: 1700, category: "clothing", image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=300", description: "ቀላል እና ለሰውነት ምቹ የሆነ የጥጥ ሹራብ።" },
     { id: 30, name: "ባርኔጣ እና ሻርፕ (Cap & Scarf Set)", price: 600, category: "clothing", image: "https://images.unsplash.com/photo-1576871337622-98d48d1cf531?w=300", description: "ከፀሐይ እና ከቀዝቃዛ አየር መከላከያ ስብስብ።" },
 
-    // --- የቤት እቃዎች (Furniture) ---
+    // --- የቤት እቃዎች (Furniture - 15 እቃዎች) ---
     { id: 31, name: "ዘመናዊ የቡና ጠረጴዛ (Coffee Table)", price: 4500, category: "furniture", image: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=300", description: "ለሳሎን የሚሆን ማራኪ እና ጽኑ የቡና ጠረጴዛ።" },
     { id: 32, name: "የመኝታ አልጋ (Bed Frame)", price: 22000, category: "furniture", image: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=300", description: "ምቹ እና ጥራት ካለው እንጨት የተሰራ አልጋ።" },
     { id: 33, name: "የቢሮ ወንበር (Office Chair)", price: 5500, category: "furniture", image: "https://images.unsplash.com/photo-1580481077494-e3299ac25b94?w=300", description: "ጀርባ ላለማመም የሚያስችል የሚስተካከል የቢሮ ወንበር።" },
     { id: 34, name: "የሳሎን ሶፋ (Living Room Sofa)", price: 30000, category: "furniture", image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300", description: "ሰፊ እና ለቤተሰብ መቀመጫ የሚመች ሶፋ።" },
     { id: 35, name: "የመጻሕፍት መደርደሪያ (Bookshelf)", price: 6000, category: "furniture", image: "https://images.unsplash.com/photo-1594623930572-300a3011d9ae?w=300", description: "መጻሕፍትን እና እቃዎችን በቅደም ተከተል መያዣ።" },
-    { id: 36, name: "የመመገቢያ ጠረጴዛ (Dining Table Set)", price: 25000, category: "furniture", image: "https://images.unsplash.com/photo-1615066390971-00e4e1ca2b0d?w=300", description: "ቤተሰብTogether ለመመገብ የሚያስችል ውብ ጠረጴዛ።" },
+    { id: 36, name: "የመመገቢያ ጠረጴዛ (Dining Table Set)", price: 25000, category: "furniture", image: "https://images.unsplash.com/photo-1615066390971-00e4e1ca2b0d?w=300", description: "ቤተሰብ በጋራ ለመመገብ የሚያስችል ውብ ጠረጴዛ።" },
     { id: 37, name: "የቴሌቪዥን መደርደሪያ (TV Stand)", price: 7500, category: "furniture", image: "https://images.unsplash.com/photo-1593062096033-9a26b09da705?w=300", description: "ቴሌቪዥን እና ዲኮር እቃዎችን መጫኛ መደርደሪያ።" },
-    { id: 38, name: "የልብስ መጋረጃ (Wardrobe Closet)", price: 18000, category: "furniture", image: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=300", description: "ልብሶችን እና ፖርቶጆዎችን በንጽህና መያዣ ካቢኔ።" },
+    { id: 38, name: "የልብስ መጋረጃ (Wardrobe Closet)", price: 18000, category: "furniture", image: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=300", description: "ልብሶችን በንጽህና መያዣ ካቢኔ።" },
     { id: 39, name: "የመኝታ ቤት ኮመዲኖ (Bedside Table)", price: 2000, category: "furniture", image: "https://images.unsplash.com/photo-1532372320572-cda25653a26d?w=300", description: "አልጋ አጠገብ ትናንሽ እቃዎችን ማስቀመጫ ጠረጴዛ።" },
     { id: 40, name: "የወጥ ቤት ካቢኔ (Kitchen Cabinet)", price: 15000, category: "furniture", image: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=300", description: "የወጥ ቤት እቃዎችን በስርዓት መያዣ ካቢኔ።" },
-    { id: 41, name: "የእንግዳ ወንበር (Guest Chair)", price: 3000, category: "furniture", image: "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=300", description: "ለဧንግዶች መቀመጫ የሚሆን ውብ እና ጽኑ ወንበር።" },
+    { id: 41, name: "የእንግዳ ወንበር (Guest Chair)", price: 3000, category: "furniture", image: "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=300", description: "ለእንግዶች መቀመጫ የሚሆን ውብ እና ጽኑ ወንበር።" },
     { id: 42, name: "የጫማ መደርደሪያ (Shoe Rack)", price: 2500, category: "furniture", image: "https://images.unsplash.com/photo-1595515106969-1ce29566ff1c?w=300", description: "ጫማዎችን በንጽህና እና በቅደም ተከተል መያዣ።" },
     { id: 43, name: "የግድግዳ ዎል ዴኮር መስተዋት (Wall Mirror)", price: 3500, category: "furniture", image: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=300", description: "ግድግዳ ላይ የሚሰቀል ትልቅ እና ጥራት ያለው መስተዋት።" },
     { id: 44, name: "የሰነድ ካዝና (Safe Box)", price: 12000, category: "furniture", image: "https://images.unsplash.com/photo-1591123120675-6f77d3ae0286?w=300", description: "ገንዘብ እና ሚስጥራዊ ሰነዶችን በጥንቃቄ መቆለፊያ።" },
@@ -67,14 +67,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const urlParams = new URLSearchParams(window.location.search);
     const isAdmin = urlParams.get('admin');
-    const adminModal = document.getElementById("admin-modal") || document.getElementById("admin-panel");
+    const adminModal = document.getElementById("admin-modal");
     
     if (isAdmin === 'true') {
         let password = prompt("🔒 እባክዎ የአስተዳዳሪ (Admin) መግቢያ ቃል ያስገቡ:");
         
         if (password === "maki2026") {
             if (adminModal) {
-                adminModal.style.display = "block";
+                adminModal.style.display = "flex";
             }
             alert("✨ እንኳን ደህና መጡ! ወደ አድሚን ፓነል ገብተዋል።");
             renderAdminManagementList();
@@ -89,7 +89,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// --- 4. ምርቶችን ፊት ለፊት ማሳያ እና የምድብ (Category) ማጣሪያ ---
+// --- 4. ምርቶችን ፊት ለፊት ማሳያ እና የምድብ ማጣሪያ ---
 function renderProducts(productsToDisplay) {
     const productContainer = document.getElementById("product-list");
     if (!productContainer) return;
@@ -106,21 +106,19 @@ function renderProducts(productsToDisplay) {
         const productCard = document.createElement("div");
         productCard.className = "product-card";
         productCard.innerHTML = `
-            <img src="${product.image || 'https://via.placeholder.com/150'}" alt="${product.name}" style="width:100%; height:140px; object-fit:cover; border-radius:6px;" onerror="this.src='https://via.placeholder.com/150'">
-            <h3 style="font-size:16px; margin: 10px 0 5px 0;">${product.name}</h3>
-            <p style="color: #666; font-size: 13px; margin-bottom: 5px;">ምድብ: ${product.category}</p>
-            <p style="color: #555; font-size: 12px; margin-bottom: 8px; height: 35px; overflow: hidden;">${product.description || 'ጥራት ያለው እቃ'}</p>
-            <p style="color: #007bff; font-weight: bold; margin-bottom: 10px;">${product.price} ብር</p>
+            <img src="${product.image || 'https://via.placeholder.com/150'}" alt="${product.name}" style="width:100%; height:130px; object-fit:cover; border-radius:6px;" onerror="this.src='https://via.placeholder.com/150'">
+            <h3 style="font-size:15px; margin: 8px 0 4px 0;">${product.name}</h3>
+            <p style="color: #666; font-size: 12px; margin-bottom: 4px;">ምድብ: ${product.category}</p>
+            <p style="color: #007bff; font-weight: bold; margin-bottom: 8px;">${product.price} ብር</p>
             <div style="display: flex; gap: 5px;">
-                <button onclick="showProductDetail(${product.id})" style="background: #17a2b8; color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer; flex: 1; font-size: 12px;">ዝርዝር 👁️</button>
-                <button onclick="addToCart(${product.id})" style="background: #28a745; color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer; flex: 1; font-size: 12px;">ግዛ 🛒</button>
+                <button onclick="showProductDetail(${product.id})" style="background: #17a2b8; color: white; border: none; padding: 6px; border-radius: 4px; cursor: pointer; flex: 1; font-size: 11px;">ዝርዝር 👁️</button>
+                <button onclick="addToCart(${product.id})" style="background: #28a745; color: white; border: none; padding: 6px; border-radius: 4px; cursor: pointer; flex: 1; font-size: 11px;">ግዛ 🛒</button>
             </div>
         `;
         productContainer.appendChild(productCard);
     });
 }
 
-// በምድብ (Category) ለማጣራት የሚያስችል ፋንክሽን
 function filterCategory(categoryName) {
     if (categoryName === 'all' || !categoryName) {
         renderProducts(products);
@@ -135,18 +133,16 @@ function showProductDetail(productId) {
     const product = products.find(p => p.id === productId);
     if (!product) return;
 
-    // ተዛማጅ እቃዎች (Related products ከዚሁ ምድብ)
     const relatedProducts = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 3);
 
     let relatedHtml = relatedProducts.map(rp => `
         <div style="border: 1px solid #ddd; padding: 5px; border-radius: 4px; text-align: center; width: 90px; cursor: pointer;" onclick="showProductDetail(${rp.id})">
-            <img src="${rp.image}" style="width: 100%; height: 60px; object-fit: cover; border-radius: 3px;">
+            <img src="${rp.image}" style="width: 100%; height: 50px; object-fit: cover; border-radius: 3px;">
             <p style="font-size: 10px; margin: 3px 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${rp.name}</p>
             <p style="font-size: 10px; color: #007bff; font-weight: bold; margin: 0;">${rp.price} ብር</p>
         </div>
     `).join('');
 
-    // ሞዳል ወይም ፖፕአፕ አሳይቶ መረጃውን ማሳየት
     let detailModal = document.getElementById("product-detail-modal");
     if (!detailModal) {
         detailModal = document.createElement("div");
@@ -156,20 +152,20 @@ function showProductDetail(productId) {
     }
 
     detailModal.innerHTML = `
-        <div style="background: white; padding: 20px; border-radius: 8px; width: 90%; max-width: 450px; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+        <div style="background: white; padding: 20px; border-radius: 8px; width: 90%; max-width: 420px; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
             <button onclick="document.getElementById('product-detail-modal').style.display='none'" style="position: absolute; top: 10px; right: 10px; background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 50%; cursor: pointer; font-weight: bold;">✕</button>
-            <img src="${product.image}" style="width: 100%; height: 180px; object-fit: cover; border-radius: 6px;">
-            <h2 style="margin: 10px 0 5px 0; font-size: 20px;">${product.name}</h2>
-            <p style="color: #666; font-size: 13px; margin-bottom: 5px;">ምድብ: <b>${product.category}</b></p>
-            <p style="color: #007bff; font-weight: bold; font-size: 18px; margin-bottom: 10px;">${product.price} ብር</p>
-            <p style="background: #f8f9fa; padding: 10px; border-radius: 5px; font-size: 14px; color: #333; margin-bottom: 15px;"><b>መግለጫ:</b> ${product.description || 'ምንም መግለጫ አልተሰጠም።'}</p>
+            <img src="${product.image}" style="width: 100%; height: 160px; object-fit: cover; border-radius: 6px;">
+            <h2 style="margin: 10px 0 5px 0; font-size: 18px;">${product.name}</h2>
+            <p style="color: #666; font-size: 12px; margin-bottom: 5px;">ምድብ: <b>${product.category}</b></p>
+            <p style="color: #007bff; font-weight: bold; font-size: 16px; margin-bottom: 10px;">${product.price} ብር</p>
+            <p style="background: #f8f9fa; padding: 8px; border-radius: 5px; font-size: 13px; color: #333; margin-bottom: 12px;"><b>መግለጫ:</b> ${product.description || 'ምንም መግለጫ አልተሰጠም።'}</p>
             
-            <h4 style="margin: 10px 0 5px 0; font-size: 14px; color: #444;">🔗 ተዛማጅ እቃዎች (Related Products)</h4>
-            <div style="display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto;">
-                ${relatedHtml || '<p style="font-size: 12px; color: #777;">ምንም ተዛማጅ እቃዎች የሉም።</p>'}
+            <h4 style="margin: 8px 0 4px 0; font-size: 13px; color: #444;">🔗 ተዛማጅ እቃዎች (Related Products)</h4>
+            <div style="display: flex; gap: 8px; margin-bottom: 12px; overflow-x: auto;">
+                ${relatedHtml || '<p style="font-size: 11px; color: #777;">ምንም ተዛማጅ እቃዎች የሉም።</p>'}
             </div>
 
-            <button onclick="addToCart(${product.id}); document.getElementById('product-detail-modal').style.display='none';" style="background: #28a745; color: white; border: none; padding: 10px; border-radius: 4px; width: 100%; cursor: pointer; font-weight: bold;">ወደ ከረጢት ጨምር 🛒</button>
+            <button onclick="addToCart(${product.id}); document.getElementById('product-detail-modal').style.display='none';" style="background: #28a745; color: white; border: none; padding: 8px; border-radius: 4px; width: 100%; cursor: pointer; font-weight: bold; font-size: 13px;">ወደ ከረጢት ጨምር 🛒</button>
         </div>
     `;
     detailModal.style.display = "flex";
@@ -223,21 +219,17 @@ function updateComparison() {
     }
 
     resultBox.innerHTML = `
-        <div style="display: flex; justify-content: space-around; text-align: left; gap: 15px;">
-            <div style="flex: 1; background: #f8f9fa; padding: 10px; border-radius: 6px;">
-                <img src="${p1.image}" style="width:100%; height:80px; object-fit:cover; border-radius:4px;">
-                <h4 style="margin:5px 0; font-size:14px;">${p1.name}</h4>
-                <p style="margin:2px 0; font-size:12px;"><b>ዋጋ:</b> ${p1.price} ብር</p>
-                <p style="margin:2px 0; font-size:12px;"><b>ምድብ:</b> ${p1.category}</p>
+        <div style="display: flex; justify-content: space-around; text-align: left; gap: 10px;">
+            <div style="flex: 1; background: #f8f9fa; padding: 6px; border-radius: 4px;">
+                <h4 style="margin:3px 0; font-size:12px;">${p1.name}</h4>
+                <p style="margin:1px 0; font-size:11px;"><b>ዋጋ:</b> ${p1.price} ብር</p>
             </div>
-            <div style="flex: 1; background: #f8f9fa; padding: 10px; border-radius: 6px;">
-                <img src="${p2.image}" style="width:100%; height:80px; object-fit:cover; border-radius:4px;">
-                <h4 style="margin:5px 0; font-size:14px;">${p2.name}</h4>
-                <p style="margin:2px 0; font-size:12px;"><b>ዋጋ:</b> ${p2.price} ብር</p>
-                <p style="margin:2px 0; font-size:12px;"><b>ምድብ:</b> ${p2.category}</p>
+            <div style="flex: 1; background: #f8f9fa; padding: 6px; border-radius: 4px;">
+                <h4 style="margin:3px 0; font-size:12px;">${p2.name}</h4>
+                <p style="margin:1px 0; font-size:11px;"><b>ዋጋ:</b> ${p2.price} ብር</p>
             </div>
         </div>
-        <p style="margin-top: 15px; text-align: center; font-weight: bold; color: #007bff; font-size: 13px;">📊 የዋጋ ንጽጽር ውጤት: ${priceComparisonText}</p>
+        <p style="margin-top: 8px; text-align: center; font-weight: bold; color: #007bff; font-size: 11px;">📊 ንጽጽር: ${priceComparisonText}</p>
     `;
 }
 
@@ -273,14 +265,15 @@ function updateCartUI() {
         cartRow.style.display = "flex";
         cartRow.style.justifyContent = "space-between";
         cartRow.style.alignItems = "center";
-        cartRow.style.margin = "8px 0";
+        cartRow.style.margin = "6px 0";
         cartRow.style.borderBottom = "1px solid #ddd";
-        cartRow.style.paddingBottom = "5px";
+        cartRow.style.paddingBottom = "4px";
+        cartRow.style.fontSize = "12px";
 
         cartRow.innerHTML = `
             <span>${item.name} (${item.quantity})</span>
             <span>${itemTotal} ብር</span>
-            <button onclick="removeFromCart(${index})" style="background: #dc3545; color: white; border: none; padding: 3px 6px; border-radius: 3px; cursor: pointer;">✕</button>
+            <button onclick="removeFromCart(${index})" style="background: #dc3545; color: white; border: none; padding: 2px 5px; border-radius: 3px; cursor: pointer;">✕</button>
         `;
         cartContainer.appendChild(cartRow);
     });
@@ -294,7 +287,7 @@ function updateCartUI() {
             <b>ዕቃዎች ድምር:</b> ${subtotal} ብር<br>
             ${discountRate > 0 ? `<b>ቅናሽ (5%):</b> -${discountAmount} ብር<br>` : ''}
             <b>ማስረከቢያ:</b> ${deliveryFee} ብር<br>
-            <b style="color: #28a745; font-size: 16px;">ጠቅላላ የሚከፈል: ${grandTotal} ብር</b>
+            <b style="color: #28a745; font-size: 14px;">ጠቅላላ የሚከፈል: ${grandTotal} ብር</b>
         `;
     }
 }
@@ -316,7 +309,7 @@ function applyPromoCode() {
     if (couponUsed) {
         if (messageElement) {
             messageElement.style.color = "red";
-            messageElement.innerText = "❌ ይህ የኩፖን ኮድ በዚህ ትዕዛዝ አስቀድሞ ጥቅም ላይ ውሏል!";
+            messageElement.innerText = "❌ ይህ ኩፖን በዚህ ትዕዛዝ ጥቅም ላይ ውሏል!";
         }
         return;
     }
@@ -328,7 +321,7 @@ function applyPromoCode() {
         
         if (messageElement) {
             messageElement.style.color = "green";
-            messageElement.innerText = "🎉 የኩፖን ኮድ ተቀባይነት አግኝቷል! 5% ቅናሽ ተደርጓል።";
+            messageElement.innerText = "🎉 5% ቅናሽ ተደርጓል።";
         }
         promoInput.disabled = true;
     } else {
@@ -336,7 +329,7 @@ function applyPromoCode() {
         appliedPromoCode = "";
         if (messageElement) {
             messageElement.style.color = "red";
-            messageElement.innerText = "❌ ያስገቡት የኩፖን ኮድ ትክክል አይደለም!";
+            messageElement.innerText = "❌ ትክክል ያልሆነ ኩፖን!";
         }
     }
     updateCartUI(); 
@@ -368,17 +361,18 @@ function renderAdminManagementList() {
         itemRow.style.display = "flex";
         itemRow.style.justifyContent = "space-between";
         itemRow.style.alignItems = "center";
-        itemRow.style.padding = "8px";
-        itemRow.style.margin = "5px 0";
+        itemRow.style.padding = "6px";
+        itemRow.style.margin = "4px 0";
         itemRow.style.background = "#f8f9fa";
         itemRow.style.border = "1px solid #dee2e6";
         itemRow.style.borderRadius = "4px";
+        itemRow.style.fontSize = "12px";
 
         itemRow.innerHTML = `
-            <span><b>${product.name}</b> (${product.category}) - ${product.price} ብር</span>
+            <span><b>${product.name}</b> - ${product.price} ብር</span>
             <div>
-                <button onclick="adminEditProduct(${product.id})" style="background: #ffc107; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; margin-right: 5px; font-weight: bold;">አስተካክል ✍️</button>
-                <button onclick="adminDeleteProduct(${product.id})" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">ሰርዝ 🗑️</button>
+                <button onclick="adminEditProduct(${product.id})" style="background: #ffc107; border: none; padding: 3px 7px; border-radius: 3px; cursor: pointer; margin-right: 3px;">አስተካክል ✍️</button>
+                <button onclick="adminDeleteProduct(${product.id})" style="background: #dc3545; color: white; border: none; padding: 3px 7px; border-radius: 3px; cursor: pointer;">ሰርዝ 🗑️</button>
             </div>
         `;
         managementListContainer.appendChild(itemRow);
