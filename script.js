@@ -121,11 +121,17 @@ function saveAdminGiftSettings() {
 
 // --- ስጦታ ማሽከርከር እና ቦነስን ከግዢ ጋር ማገናኘት (100 ወደ 150 መቀየር የሚቻልበት) ---
 function spinHolidayGift() {
+    // ተጠቃሚው ከዚህ በፊት ማሽከርከሩን ማረጋገጥ
+    if (localStorage.getItem('allmart_gift_spun') === 'true') {
+        alert("⚠️ ይቅርታ! እርስዎ ቀድሞውኑ የበዓል ስጦታ ዕድልዎን ሞክረዋልና ከአንድ በላይ መሞከር አይችሉም!");
+        return;
+    }
+
     const resultBox = document.getElementById("spin-result-display");
+    if (!resultBox) return;
     resultBox.innerText = "🔄 በመሽከርከር ላይ...";
     
     setTimeout(() => {
-        // አድሚኑ የሰጠውን መግለጫ በማየት የገንዘብ ሽልማቱን ማስተካከል ይቻላል (למשל 150 ብር ቦነስ)
         const possibleGifts = [
             { text: "🎉 እንኳን ደስ አለዎት! 150 ብር የሽልማት ቦነስ አሸንፈዋል!", bonus: 150, freeDel: false },
             { text: "🙏 እናመሰግናለን! ለዚህ ግዢዎ 50 ብር ቅናሽ ተሰጥቷል!", bonus: 50, freeDel: false },
@@ -139,11 +145,14 @@ function spinHolidayGift() {
         userWonBonusAmount = won.bonus;
         userWonFreeDelivery = won.freeDel;
 
-        updateCartUI(); // ከግዢው ላይ ወዲያውኑ እንዲቀነስ ማዘመን
+        // አንዴ ማሽከርከሩን በ localStorage መመዝገብ (ዳግመኛ እንዳይሞክር)
+        localStorage.setItem('allmart_gift_spun', 'true');
 
+        updateCartUI();
         sendTelegramNotification(`🎁 አዲስ የስጦታ ማሽከርከር ውጤት!\nየደረሰው ሽልማት: ${won.text}`);
     }, 1000);
 }
+
 
 function toggleAdminDiscount(checkbox) {
     adminDiscountAllowed = checkbox.checked;
