@@ -1,3 +1,17 @@
+:root {
+    --bg-color: #f4f7f6;
+    --text-color: #333;
+    --card-bg: #fff;
+    --header-bg: #007bff;
+}
+
+body.dark-mode {
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --card-bg: #1e1e1e;
+    --header-bg: #1f1f1f;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -6,39 +20,86 @@
 }
 
 body {
-    background-color: #f4f7f6;
-    color: #333;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background 0.3s, color 0.3s;
 }
 
 header {
-    background: #007bff;
+    background: var(--header-bg);
     color: white;
-    padding: 15px 30px;
+    padding: 12px 25px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+    gap: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 header h1 {
-    font-size: 24px;
+    font-size: 22px;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
+    padding: 2px 5px;
+}
+
+.search-container input {
+    border: none;
+    padding: 6px;
+    outline: none;
+    font-size: 13px;
+    width: 180px;
+}
+
+.search-container button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
 }
 
 nav button {
     background: white;
     color: #007bff;
     border: none;
-    padding: 8px 15px;
-    margin-left: 8px;
+    padding: 6px 12px;
+    margin-left: 5px;
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
-    transition: 0.3s;
+    font-size: 12px;
 }
 
-nav button:hover {
-    background: #e2e6ea;
+.banner-slider {
+    background: #ffc107;
+    color: #333;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 14px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.slide {
+    display: none;
+}
+
+.slide.active {
+    display: block;
+    animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 .main-container {
@@ -55,93 +116,82 @@ nav button:hover {
 
 .products-section h2 {
     margin-bottom: 15px;
-    font-size: 20px;
-    color: #444;
+    font-size: 18px;
 }
 
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
     gap: 15px;
 }
 
 .product-card {
-    background: white;
-    border: 1px solid #ddd;
+    background: var(--card-bg);
+    border: 1px solid #444;
     border-radius: 8px;
-    padding: 12px;
+    padding: 10px;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    transition: transform 0.2s;
-}
-
-.product-card:hover {
-    transform: translateY(-3px);
 }
 
 .sidebar-section {
     flex: 1.2;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
 }
 
 .compare-box, .cart-box {
-    background: white;
+    background: var(--card-bg);
     padding: 15px;
     border-radius: 8px;
-    border: 1px solid #ddd;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border: 1px solid #444;
 }
 
 .compare-box h3, .cart-box h3 {
-    font-size: 16px;
-    margin-bottom: 10px;
-    color: #333;
+    font-size: 15px;
+    margin-bottom: 8px;
 }
 
 .compare-selectors select, .delivery-box select, .promo-box input, #checkout-form input, #checkout-form select {
     width: 100%;
-    padding: 8px;
-    margin-bottom: 8px;
-    border: 1px solid #ccc;
+    padding: 7px;
+    margin-bottom: 6px;
+    border: 1px solid #888;
     border-radius: 4px;
-    font-size: 13px;
+    font-size: 12px;
+    background: var(--card-bg);
+    color: var(--text-color);
 }
 
 .compare-result-box {
-    margin-top: 10px;
-    background: #f8f9fa;
-    padding: 10px;
+    margin-top: 8px;
+    background: rgba(0,0,0,0.05);
+    padding: 8px;
     border-radius: 6px;
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .cart-total {
-    margin: 10px 0;
-    padding: 10px;
-    background: #e9ecef;
+    margin: 8px 0;
+    padding: 8px;
+    background: rgba(0,0,0,0.05);
     border-radius: 4px;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .checkout-btn {
     background: #28a745;
     color: white;
     border: none;
-    padding: 10px;
+    padding: 9px;
     width: 100%;
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 13px;
 }
 
-.checkout-btn:hover {
-    background: #218838;
-}
-
-/* Modal Styling */
 .modal {
     position: fixed;
     top: 0;
@@ -156,27 +206,29 @@ nav button:hover {
 }
 
 .modal-content {
-    background: white;
-    padding: 25px;
+    background: var(--card-bg);
+    color: var(--text-color);
+    padding: 20px;
     border-radius: 8px;
     width: 90%;
-    max-width: 500px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    max-width: 480px;
 }
 
 .admin-content input, .admin-content select {
     width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
+    padding: 7px;
+    margin-bottom: 8px;
+    border: 1px solid #888;
     border-radius: 4px;
+    background: var(--card-bg);
+    color: var(--text-color);
 }
 
 .admin-content button {
     background: #007bff;
     color: white;
     border: none;
-    padding: 8px 12px;
+    padding: 7px 10px;
     border-radius: 4px;
     cursor: pointer;
 }
