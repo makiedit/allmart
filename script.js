@@ -116,13 +116,12 @@ function saveAdminGiftSettings() {
     }
 }
 
-// --- የደንበኛ ስጦታ ማሽከርከሪያ (Spin Game) ---
+// --- የደንበኛ ስጦታ ማሽከርከሪያ (Spin Game) ከቴሌግራም ማሳወቂያ ጋር ---
 function spinHolidayGift() {
     const resultBox = document.getElementById("spin-result-display");
     resultBox.innerText = "🔄 በመሽከርከር ላይ...";
     
     setTimeout(() => {
-        // የዘፈቀደ ስጦታዎች (100 ብር፣ ምስጋና፣ ወይም ነፃ ዕቃ)
         const possibleGifts = [
             "🎉 እንኳን ደስ አለዎት! 100 ብር የሽልማት ቦነስ አሸንፈዋል!",
             "🙏 እናመሰግናለን! ለዚህ ግዢዎ 50 ብር ቅናሽ ተሰጥቷል!",
@@ -131,9 +130,23 @@ function spinHolidayGift() {
         ];
         const randomGift = possibleGifts[Math.floor(Math.random() * possibleGifts.length)];
         resultBox.innerText = randomGift;
+
+        // ደንበኛው ስጦታ ሲያሽከረክር ወደ ቴሌግራም ቦት ማሳወቂያ መላክ
+        sendTelegramNotification(`🎁 አዲስ የስጦታ ማሽከርከር ሙከራ!\nየደረሰው ሽልማት: ${randomGift}`);
     }, 1000);
 }
 
+// --- የቴሌግራም ማሳወቂያ መላኪያ ፈንክሽን ---
+function sendTelegramNotification(message) {
+    const botToken = "8981438302:AAH19L3Uk-6XYCQRo86WEtI0-v59gSyf8AE";
+    const chatId = "8885724020";
+    const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => console.log("Telegram sent:", data))
+        .catch(error => console.error("Telegram error:", error));
+}
 // --- አድሚን የቅናሽ ፈቃድ ማስተካከያ ---
 function toggleAdminGift(checkbox) {
     adminGiftAllowed = checkbox.checked;
@@ -397,21 +410,27 @@ function updateComparison() {
     let diff = p1.price - p2.price;
     box.innerHTML = `<b>${p1.name}</b> (${p1.price} ብር) እና <b>${p2.name}</b> (${p2.price} ብር)<br>ልዩነት: ${Math.abs(diff)} ብር`;
 }
-
 function checkout(e) {
     e.preventDefault();
     if (cart.length === 0) { alert("ከረጢቱ ባዶ ነው!"); return; }
+    
     const name = document.getElementById("customer-name").value;
+    const phone = document.getElementById("customer-phone").value;
     const location = document.getElementById("customer-location").value;
     const paymentMethod = document.getElementById("payment-method").value;
     const tx = document.getElementById("transaction-id").value;
     
-    if (!name || !location || !paymentMethod || !tx) { 
-        alert("እባክዎ ሙሉ መረጃ፣ የአዲስ አበባ አድራሻ እና የክፍያ ማረጋገጫ (Transaction ID) ያስገቡ!"); 
+    if (!name || !phone || !location || !paymentMethod || !tx) { 
+        alert("እባክዎ ሙሉ መረጃ፣ ስልክ ቁጥር፣ የአዲስ አበባ አድራሻ እና የክፍያ ማረጋገጫ (Transaction ID) ያስገቡ!"); 
         return; 
     }
     
-    alert("✅ ትዕዛዝዎ በተሳካ ሁኔታ ለአዲስ አበባ ማድረሻ ቡድን ተልኳል!");
+    let orderMessage = `🛒 አዲስ ትዕዛዝ መጣ!\n\n👤 ስም: ${name}\n📞 ስልክ: ${phone}\n📍 አድራሻ: ${location}\n💳 የክፍያ መንገድ: ${paymentMethod}\n🆔 የክፍያ መለያ (TxID): ${tx}`;
+    
+    // ቴሌግራም ቦት ላይ ትዕዛዙን መላክ
+    sendTelegramNotification(orderMessage);
+
+    alert("✅ ትዕዛዝዎ በተሳካ ሁኔታ ለአዲስ አበባ ማድረሻ ቡድን እና ወደ ቴሌግራም ቦትዎ ተልኳል!");
     cart = [];
     updateCartUI();
 }
