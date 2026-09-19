@@ -1,3 +1,28 @@
+window.addEventListener('DOMContentLoaded', () => {
+    // የአድሚን ፓነል ማረጋገጫ (?admin=true)
+    const urlParams = new URLSearchParams(window.location.search);
+    const isAdmin = urlParams.get('admin');
+    const adminPanel = document.getElementById("admin-panel");
+    
+    if (isAdmin === 'true') {
+        let password = prompt("🔒 እባክዎ የአስተዳዳሪ (Admin) መግቢያ ቃል ያስገቡ:");
+        
+        if (password === "maki2026") {
+            if (adminPanel) {
+                adminPanel.style.display = "block";
+            }
+            alert("✨ እንኳን ደህና መጡ! ወደ አድሚን ፓነል ገብተዋል።");
+        } else {
+            alert("❌ የሰጡት የይለፍ ቃል ስህተት ነው!");
+            window.location.href = window.location.pathname; 
+        }
+    } else {
+        if (adminPanel) {
+            adminPanel.style.display = "none";
+        }
+    }
+});
+
 let products = [
     // --- ኤሌክትሮኒክስ (Electronics) - 15 እቃዎች ---
     { id: 1, name: "ስማርት ስልክ (Smartphone)", price: 15000, category: "electronics", description: "ጥራት ያለው ካሜራ እና ረጅም ስክሪን ባትሪ ቆጣቢ ስማርት ስልክ።", image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500&auto=format&fit=crop&q=60" },
@@ -122,22 +147,41 @@ function closeSpinModal() {
     document.getElementById("spin-modal").style.display = "none";
 }
 
-function spinWheel() {
-    const prizes = ["MAKI2026 (10% ቅናሽ)", "ነፃ ዴሊቨሪ", "እንደገና ይሞክሩ", "MAKI2026 (10% ቅናሽ)"];
-    const randomPrize = prizes[Math.floor(Math.random() * prizes.length)];
-    
-    const resultElement = document.getElementById("spin-result");
-    if (randomPrize.includes("MAKI2026")) {
-        resultElement.style.color = "#2b8a3e";
-        resultElement.innerText = `🎉 ደስ አለዎት! ${randomPrize} አሸንፈዋል! ኩፖኑን መጠቀም ይችላሉ።`;
-        document.getElementById("promo-input").value = "MAKI2026";
-        applyPromoCode();
+let couponUsed = false; // አንድ ጊዜ ብቻ እንዲሰራ የሚቆጣጠር
+let adminAllowedDiscountRate = 0.05; // 5% ቅናሽ
+
+function applyPromoCode() {
+    const promoInput = document.getElementById("promo-input").value.trim().toUpperCase();
+    const messageElement = document.getElementById("promo-message");
+    const validPromoCode = "MAKI2026";
+
+    if (couponUsed) {
+        messageElement.style.color = "red";
+        messageElement.innerText = "❌ ይህ የኩፖን ኮድ በዚህ ትዕዛዝ አስቀድሞ ጥቅም ላይ ውሏል!";
+        return;
+    }
+
+    if (adminAllowedDiscountRate > 0 && promoInput === validPromoCode) {
+        discountRate = adminAllowedDiscountRate; 
+        appliedPromoCode = validPromoCode;
+        couponUsed = true; // ለአንድ ጊዜ ብቻ አገልግሎ ላይ እንዲውል ምልክት ይደረግበታል
+        
+        messageElement.style.color = "green";
+        messageElement.innerText = "🎉 የኩፖን ኮድ ተቀባይነት አግኝቷል! 5% ቅናሽ ተደርጓል።";
+        
+        const promoField = document.getElementById("promo-input");
+        if(promoField) promoField.disabled = true;
     } else {
-        resultElement.style.color = "#d9534f";
-        resultElement.innerText = `😢 ${randomPrize}! እባክዎ እንደገና ይሞክሩ።`;
+        discountRate = 0;
+        appliedPromoCode = "";
+        messageElement.style.color = "red";
+        messageElement.innerText = "❌ ያስገቡት የኩፖን ኮድ ትክክል አይደለም ወይም አስተዳዳሪው አልፈቀደም!";
+    }
+    
+    if (typeof updateCartUI === 'function') {
+        updateCartUI(); 
     }
 }
-
 function openCompareModal() {
     document.getElementById("compare-modal").style.display = "flex";
     populateCompareDropdowns();
