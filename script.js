@@ -1,5 +1,5 @@
 let products = [
-    { id: 1, name: "ስማርት ስልክ (Smartphone)", price: 15000, category: "electronics", image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300", description: "ጥራት ያለው ዘመናዊ ስማርት ስልክ።" },
+    { id: 1, name: "ስማርት ስልክ (Smartphone)", price: 16000, category: "electronics", image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300", description: "ጥራት ያለው ዘመናዊ ስማርት ስልክ።" },
     { id: 2, name: "ላፕቶፕ (Laptop)", price: 38000, category: "electronics", image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=300", description: "ፈጣን እና ለአሰራር ምቹ የሆነ ኮር i5 ላፕቶፕ።" },
     { id: 3, name: "ታብሌት (Tablet)", price: 12000, category: "electronics", image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=300", description: "ለጥናት እና ለመዝናኛ የሚሆን ታብሌት።" },
     { id: 4, name: "ስማርት ሰዓት (Smart Watch)", price: 3500, category: "electronics", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300", description: "የጤና መቆጣጠሪያ ሰዓት።" },
