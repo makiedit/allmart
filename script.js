@@ -14,8 +14,6 @@ let products = [
     { id: 13, name: "ኤችዲ ፕሮጀክተር (HD Projector)", price: 18000, category: "electronics", image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=300", description: "ፊልሞችን በትልቅ ስክሪን ማሳያ።" },
     { id: 14, name: "ሞኒተር 24 ኢንች (Monitor 24\")", price: 11000, category: "electronics", image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=300", description: "ግልጽ የኤልዲ ማሳያ ሞኒተር።" },
     { id: 15, name: "ፕሪንተር (Printer)", price: 9500, category: "electronics", image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=300", description: "ሰነዶችን በፍጥነት ማተሚያ ማሽን።" },
-
-    // --- አልባሳት (Clothing - 15 እቃዎች) ---
     { id: 16, name: "ወንድ ጃኬት (Men Jacket)", price: 2500, category: "clothing", image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=300", description: "ሞቅ የሚያደርግ የወንድ ጃኬት።" },
     { id: 17, name: "የስፖርት ጫማ (Sport Shoes)", price: 3200, category: "clothing", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300", description: "ለስፖርት ምቹ የሆነ ጫማ።" },
     { id: 18, name: "ክላሲክ ሱሪ (Classic Trouser)", price: 1800, category: "clothing", image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=300", description: "ለስራ የሚሆን ውብ ሱሪ።" },
@@ -31,8 +29,6 @@ let products = [
     { id: 28, name: "የስፖርት ቲሸርት (Sport Jersey)", price: 1000, category: "clothing", image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=300", description: "አየር የሚያስገባ ቀላል የስፖርት ማልያ።" },
     { id: 29, name: "የጥጥ ሹራብ (Cotton Sweater)", price: 1700, category: "clothing", image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=300", description: "ቀላል እና ለሰውነት ምቹ የሆነ የጥጥ ሹራብ።" },
     { id: 30, name: "ባርኔጣ እና ሻርፕ (Cap & Scarf Set)", price: 600, category: "clothing", image: "https://images.unsplash.com/photo-1576871337622-98d48d1cf531?w=300", description: "ከፀሐይ እና ከቀዝቃዛ አየር መከላከያ ስብስብ።" },
-
-    // --- የቤት እቃዎች (Furniture - 15 እቃዎች) ---
     { id: 31, name: "ዘመናዊ የቡና ጠረጴዛ (Coffee Table)", price: 4500, category: "furniture", image: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=300", description: "ለሳሎን የሚሆን ማራኪ ጠረጴዛ።" },
     { id: 32, name: "የመኝታ አልጋ (Bed Frame)", price: 22000, category: "furniture", image: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=300", description: "ምቹ እና ጥራት ያለው አልጋ።" },
     { id: 33, name: "የቢሮ ወንበር (Office Chair)", price: 5500, category: "furniture", image: "https://images.unsplash.com/photo-1580481077494-e3299ac25b94?w=300", description: "የሚስተካከል የቢሮ ወንበር።" },
@@ -57,7 +53,11 @@ let freeDelivery = false;
 let appliedPromoCode = "";
 let couponUsed = false; 
 let adminDiscountAllowed = false; 
-let adminGiftAllowed = false; // አድሚኑ ስጦታን እንዲታይ የፈቀደበት ሁኔታ
+let adminGiftAllowed = false;
+
+// የተጠቃሚው የስጦታ ቦነስ (ከተሽከረከረ በኋላ የሚቀነስ ገንዘብ ወይም ነፃ ማድረሻ)
+let userWonBonusAmount = 0; 
+let userWonFreeDelivery = false;
 
 window.addEventListener('DOMContentLoaded', () => {
     renderProducts(products);
@@ -84,6 +84,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 function startBannerSlider() {
     let slides = document.querySelectorAll('.slide');
+    if (slides.length === 0) return;
     let currentSlide = 0;
     setInterval(() => {
         slides[currentSlide].classList.remove('active');
@@ -92,15 +93,17 @@ function startBannerSlider() {
     }, 3000);
 }
 
-// --- አድሚን የበዓል ስጦታ ማስተካከያ እና ቁጥጥር ---
+// --- አድሚን የበዓል ስጦታ ማስተካከያ ---
 function toggleAdminGift(checkbox) {
     adminGiftAllowed = checkbox.checked;
     const giftSection = document.getElementById("holiday-gift-section");
+    if (!giftSection) return;
+
     if (adminGiftAllowed) {
-        giftSection.style.display = "block";
+        giftSection.style.setProperty('display', 'block', 'important');
         alert("🎁 አድሚኑ የበዓል ስጦታ ማሽከርከሪያውን አበራ; ለደንበኞች ታይቷል።");
     } else {
-        giftSection.style.display = "none";
+        giftSection.style.setProperty('display', 'none', 'important');
         alert("🔒 አድሚኑ የበዓል ስጦታውን ዘጋው; ከጣቢያው ሙሉ በሙሉ ጠፋ።");
     }
 }
@@ -110,57 +113,54 @@ function saveAdminGiftSettings() {
     const descEl = document.getElementById("admin-gift-description");
     if (customText) {
         descEl.innerText = customText;
-        alert("✨ የስጦታው መግለጫ ተስተካክሏል!");
+        alert("✨ የስጦታው መግለጫ እና ዋጋ/ሁኔታ ተስተካክሏል!");
     } else {
         alert("⚠️ እባክዎ መግለጫ ጽሁፍ ያስገቡ!");
     }
 }
 
-// --- የደንበኛ ስጦታ ማሽከርከሪያ (Spin Game) ከቴሌግራም ማሳወቂያ ጋር ---
+// --- ስጦታ ማሽከርከር እና ቦነስን ከግዢ ጋር ማገናኘት (100 ወደ 150 መቀየር የሚቻልበት) ---
 function spinHolidayGift() {
     const resultBox = document.getElementById("spin-result-display");
     resultBox.innerText = "🔄 በመሽከርከር ላይ...";
     
     setTimeout(() => {
+        // አድሚኑ የሰጠውን መግለጫ በማየት የገንዘብ ሽልማቱን ማስተካከል ይቻላል (למשל 150 ብር ቦነስ)
         const possibleGifts = [
-            "🎉 እንኳን ደስ አለዎት! 100 ብር የሽልማት ቦነስ አሸንፈዋል!",
-            "🙏 እናመሰግናለን! ለዚህ ግዢዎ 50 ብር ቅናሽ ተሰጥቷል!",
-            "✨ መልካም በዓል! ነፃ የዕቃ ማድረሻ (Free Delivery) ተሸልመዋል!",
-            "🎈 እናመሰግናለን! ቀጣይ ዕድልዎን ይሞክሩ!"
+            { text: "🎉 እንኳን ደስ አለዎት! 150 ብር የሽልማት ቦነስ አሸንፈዋል!", bonus: 150, freeDel: false },
+            { text: "🙏 እናመሰግናለን! ለዚህ ግዢዎ 50 ብር ቅናሽ ተሰጥቷል!", bonus: 50, freeDel: false },
+            { text: "✨ መልካም በዓል! ነፃ የዕቃ ማድረሻ (Free Delivery) ተሸልመዋል!", bonus: 0, freeDel: true },
+            { text: "🎈 እናመሰግናለን! ቀጣይ ዕድልዎን ይሞክሩ!", bonus: 0, freeDel: false }
         ];
-        const randomGift = possibleGifts[Math.floor(Math.random() * possibleGifts.length)];
-        resultBox.innerText = randomGift;
+        
+        const won = possibleGifts[Math.floor(Math.random() * possibleGifts.length)];
+        resultBox.innerText = won.text;
 
-        // ደንበኛው ስጦታ ሲያሽከረክር ወደ ቴሌግራም ቦት ማሳወቂያ መላክ
-        sendTelegramNotification(`🎁 አዲስ የስጦታ ማሽከርከር ሙከራ!\nየደረሰው ሽልማት: ${randomGift}`);
+        userWonBonusAmount = won.bonus;
+        userWonFreeDelivery = won.freeDel;
+
+        updateCartUI(); // ከግዢው ላይ ወዲያውኑ እንዲቀነስ ማዘመን
+
+        sendTelegramNotification(`🎁 አዲስ የስጦታ ማሽከርከር ውጤት!\nየደረሰው ሽልማት: ${won.text}`);
     }, 1000);
 }
 
-// --- የቴሌግራም ማሳወቂያ መላኪያ ፈንክሽን ---
-function sendTelegramNotification(message) {
-    const botToken = "8981438302:AAH19L3Uk-6XYCQRo86WEtI0-v59gSyf8AE";
-    const chatId = "8885724020";
-    const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
-
-    fetch(url)
-        .then(response => response.json())
-        .then(data => console.log("Telegram sent:", data))
-        .catch(error => console.error("Telegram error:", error));
-}
-// --- አድሚን የቅናሽ ፈቃድ ማስተካከያ ---
-function toggleAdminGift(checkbox) {
-    adminGiftAllowed = checkbox.checked;
-    const giftSection = document.getElementById("holiday-gift-section");
-    if (!giftSection) return;
-    
-    if (adminGiftAllowed) {
-        giftSection.style.setProperty('display', 'block', 'important');
-        alert("🎁 አድሚኑ የበዓል ስጦታ ማሽከርከሪያውን አበራ; ለደንበኞች ታይቷል።");
+function toggleAdminDiscount(checkbox) {
+    adminDiscountAllowed = checkbox.checked;
+    const promoContainer = document.getElementById("promo-container");
+    if (adminDiscountAllowed) {
+        promoContainer.style.display = "block";
+        alert("🔓 አድሚኑ ቅናሾችን ፈቅዷል፤ የቅናሽ ቦታው ለደንበኞች ታይቷል።");
     } else {
-        giftSection.style.setProperty('display', 'none', 'important');
-        alert("🔒 አድሚኑ የበዓል ስጦታውን ዘጋው; ከጣቢያው ሙሉ በሙሉ ጠፋ።");
+        promoContainer.style.display = "none";
+        discountRate = 0;
+        freeDelivery = false;
+        couponUsed = false;
+        updateCartUI();
+        alert("🔒 አድሚኑ ቅናሾችን ዘግቷል፤ የቅናሽ ቦታው ተደብቋል።");
     }
 }
+
 function toggleTheme() {
     document.body.classList.toggle('dark-mode');
     const btn = document.getElementById('theme-btn');
@@ -238,6 +238,7 @@ function addToCart(productId) {
     alert(`✅ ${product.name} ተጨምሯል!`);
 }
 
+// --- የካርት እና የዋጋ አሰላል (ቅናሾች እና ነፃ ዴሊቨሪ ሙሉ በሙሉ የሚሰላበት) ---
 function updateCartUI() {
     const cartContainer = document.getElementById("cart-items");
     const cartTotalElement = document.getElementById("cart-total");
@@ -256,14 +257,20 @@ function updateCartUI() {
         `;
     });
 
-    let discount = subtotal * discountRate;
-    let currentDelivery = freeDelivery ? 0 : deliveryFee;
-    let grand = (subtotal - discount) + currentDelivery;
+    let promoDiscount = subtotal * discountRate;
+    let totalDiscount = promoDiscount + userWonBonusAmount; // ከስጦታ የተገኘው ቦነስም እዚህ ይጨመራል
+    
+    // ነፃ ዴሊቨሪ ከኩፖን ወይም ከስጦታ ማሽከርከር ካገኘ የማድረሻ ክፍያው 0 ይሆናል (አንዳንዳይሰላ ይደረጋል)
+    let isFreeDelActive = freeDelivery || userWonFreeDelivery;
+    let currentDelivery = isFreeDelActive ? 0 : deliveryFee;
+    
+    let grand = (subtotal - totalDiscount) + currentDelivery;
+    if (grand < 0) grand = 0; // ከጠቅላላው ዋጋ በታች ቅናሽ እንዳይበልጥ
 
-    cartTotalElement.innerHTML = `<b>ድምር:</b> ${subtotal} ብር<br>
-        ${discountRate > 0 ? `<b>ቅናሽ:</b> -${discount} ብር<br>` : ''}
-        <b>ማስረከቢያ:</b> ${currentDelivery} ብር ${freeDelivery ? '(ነፃ - Free Delivery)' : ''}<br>
-        <b style="color:#28a745;">ጠቅላላ: ${grand} ብር</b>`;
+    cartTotalElement.innerHTML = `<b>ዕቃዎች ድምር:</b> ${subtotal} ብር<br>
+        ${totalDiscount > 0 ? `<b>አጠቃላይ ቅናሽ/ቦነስ:</b> -${totalDiscount} ብር<br>` : ''}
+        <b>ማስረከቢያ:</b> ${currentDelivery} ብር ${isFreeDelActive ? '(ነፃ - Free Delivery ✅)' : ''}<br>
+        <b style="color:#28a745;">ጠቅላላ ክፍያ: ${grand} ብር</b>`;
 }
 
 function applyPromoCode() {
@@ -354,6 +361,7 @@ function renderAdminManagementList() {
     });
 }
 
+// --- አድሚን አዲስ እቃ ሲጨምር ወዲያውኑ ፊት ለፊት እንዲወጣ ማድረግ ---
 function adminAddProduct() {
     const name = document.getElementById("admin-product-name").value.trim();
     const price = parseFloat(document.getElementById("admin-product-price").value);
@@ -365,7 +373,6 @@ function adminAddProduct() {
         return; 
     }
 
-    // አዲሱን እቃ ማከማቻው ላይ መጨመር
     const newProduct = {
         id: products.length + 1,
         name: name,
@@ -377,7 +384,10 @@ function adminAddProduct() {
 
     products.push(newProduct);
 
-    // ዌብሳይቱ እና አድሚን ዝርዝሩ አብረው እንዲታደሱ ማድረግ
+    // የፍለጋ ማጣሪያዎችን በማጽዳት ዋናውን ዝርዝር ማሳየት
+    document.getElementById('search-input').value = "";
+    
+    // ፊት ለፊት ያሉትን እቃዎች ሙሉ በሙሉ ማሳደስ
     renderProducts(products);
     populateCompareSelectors();
     renderAdminManagementList();
@@ -390,16 +400,18 @@ function adminAddProduct() {
     alert("✅ አዲሱ ዕቃ ተጨመረ; አሁን በዌብሳይቱ ፊት ለፊት በግልጽ ይታያል!");
 }
 
+// --- አድሚን ዋጋ ሲያስተካክል ---
 function adminEditProduct(id) {
     const p = products.find(x => x.id === id);
     const newName = prompt("አዲሱን ስም ያስገቡ:", p.name);
     const newPrice = prompt("አዲሱን ዋጋ ያስገቡ:", p.price);
     if (newName) p.name = newName;
     if (newPrice && !isNaN(newPrice)) p.price = parseFloat(newPrice);
+    
     renderProducts(products);
     populateCompareSelectors();
     renderAdminManagementList();
-    alert("✨ ተስተካክሏል!");
+    alert("✨ የእቃው ዋጋ እና መረጃ ተስተካክሏል!");
 }
 
 function adminDeleteProduct(id) {
@@ -432,6 +444,8 @@ function updateComparison() {
     let diff = p1.price - p2.price;
     box.innerHTML = `<b>${p1.name}</b> (${p1.price} ብር) እና <b>${p2.name}</b> (${p2.price} ብር)<br>ልዩነት: ${Math.abs(diff)} ብር`;
 }
+
+// --- ትዕዛዝ ሲፈጸም ዋጋውን እና የቴሌግራም ቦት ማሳወቂያ መላክ ---
 function checkout(e) {
     e.preventDefault();
     if (cart.length === 0) { alert("ከረጢቱ ባዶ ነው!"); return; }
@@ -447,7 +461,6 @@ function checkout(e) {
         return; 
     }
     
-    // የዕቃዎቹን ዝርዝር እና ዋጋ ማስላት
     let itemsText = "";
     let subtotal = 0;
     cart.forEach(item => {
@@ -456,30 +469,45 @@ function checkout(e) {
         itemsText += `- ${item.name} (${item.quantity} ብዛት) = ${itemTotal} ብር\n`;
     });
 
-    let discount = subtotal * discountRate;
-    let currentDelivery = freeDelivery ? 0 : deliveryFee;
-    let grandTotal = (subtotal - discount) + currentDelivery;
+    let promoDiscount = subtotal * discountRate;
+    let totalDiscount = promoDiscount + userWonBonusAmount;
+    let isFreeDelActive = freeDelivery || userWonFreeDelivery;
+    let currentDelivery = isFreeDelActive ? 0 : deliveryFee;
+    let grandTotal = (subtotal - totalDiscount) + currentDelivery;
+    if (grandTotal < 0) grandTotal = 0;
 
-    // ሙሉውን መረጃ የያዘ የቴሌግራም መልእክት
     let orderMessage = `🛒 አዲስ ትዕዛዝ መጣ!\n\n` +
                        `👤 ስም: ${name}\n` +
                        `📞 ስልክ: ${phone}\n` +
                        `📍 አድራሻ: ${location}\n\n` +
                        `📦 የተመረጡ እቃዎች:\n${itemsText}\n` +
                        `💰 ዕቃዎች ድምር: ${subtotal} ብር\n` +
-                       `${discount > 0 ? `🏷️ ቅናሽ: -${discount} ብር\n` : ''}` +
-                       `🚚 ማድረሻ ዋጋ: ${currentDelivery} ብር\n` +
-                       `💵 ጠቅላላ ዋጋ: ${grandTotal} ብር\n\n` +
+                       `${totalDiscount > 0 ? `🏷️ ቅናሽ/ቦነስ: -${totalDiscount} ብር\n` : ''}` +
+                       `🚚 ማድረሻ ዋጋ: ${currentDelivery} ብር ${isFreeDelActive ? '(ነፃ)' : ''}\n` +
+                       `💵 ጠቅላላ ክፍያ: ${grandTotal} ብር\n\n` +
                        `💳 የክፍያ መንገድ: ${paymentMethod}\n` +
                        `🆔 የክፍያ ማረጋገጫ (TxID): ${tx}`;
     
-    // ወደ ቴሌግራም ቦት መላክ
     sendTelegramNotification(orderMessage);
 
-    alert("✅ ትዕዛዝዎ ዋጋውን ጨምሮ በተሳካ ሁኔታ ወደ ቴሌግራም ቦትዎ ተልኳል!");
+    alert("✅ ትዕዛዝዎ ዋጋውን እና ቅናሹን ጨምሮ በተሳካ ሁኔታ ወደ ቴሌግራም ቦትዎ ተልኳል!");
     cart = [];
+    userWonBonusAmount = 0;
+    userWonFreeDelivery = false;
     updateCartUI();
 }
+
+function sendTelegramNotification(message) {
+    const botToken = "8981438302:AAH19L3Uk-6XYCQRo86WEtI0-v59gSyf8AE";
+    const chatId = "8885724020";
+    const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => console.log("Telegram sent:", data))
+        .catch(error => console.error("Telegram error:", error));
+}
+
 function showProductDetail(id) {
     const p = products.find(x => x.id === id);
     alert(`ስም: ${p.name}\nዋጋ: ${p.price} ብር\nመግለጫ: ${p.description}`);
