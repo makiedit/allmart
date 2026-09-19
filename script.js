@@ -135,22 +135,19 @@ function spinHolidayGift() {
 }
 
 // --- አድሚን የቅናሽ ፈቃድ ማስተካከያ ---
-function toggleAdminDiscount(checkbox) {
-    adminDiscountAllowed = checkbox.checked;
-    const promoContainer = document.getElementById("promo-container");
-    if (adminDiscountAllowed) {
-        promoContainer.style.display = "block";
-        alert("🔓 አድሚኑ ቅናሾችን ፈቅዷል፤ የቅናሽ ቦታው ለደንበኞች ታይቷል።");
+function toggleAdminGift(checkbox) {
+    adminGiftAllowed = checkbox.checked;
+    const giftSection = document.getElementById("holiday-gift-section");
+    if (!giftSection) return;
+    
+    if (adminGiftAllowed) {
+        giftSection.style.setProperty('display', 'block', 'important');
+        alert("🎁 አድሚኑ የበዓል ስጦታ ማሽከርከሪያውን አበራ; ለደንበኞች ታይቷል።");
     } else {
-        promoContainer.style.display = "none";
-        discountRate = 0;
-        freeDelivery = false;
-        couponUsed = false;
-        updateCartUI();
-        alert("🔒 አድሚኑ ቅናሾችን ዘግቷል፤ የቅናሽ ቦታው ተደብቋል።");
+        giftSection.style.setProperty('display', 'none', 'important');
+        alert("🔒 አድሚኑ የበዓል ስጦታውን ዘጋው; ከጣቢያው ሙሉ በሙሉ ጠፋ።");
     }
 }
-
 function toggleTheme() {
     document.body.classList.toggle('dark-mode');
     const btn = document.getElementById('theme-btn');
