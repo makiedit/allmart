@@ -8,29 +8,36 @@
 </head>
 <body>
 
-    <!-- ሄደር እና የናቪጌሽን ምድቦች -->
     <header>
         <h1>🛒 Allmart Supermarket</h1>
+        
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="እቃዎችን ይፈልጉ..." oninput="handleSearch()">
+            <button onclick="startVoiceSearch()" title="በድምጽ ይፈልጉ">🎤</button>
+        </div>
+
         <nav>
-            <button onclick="filterCategory('all')">ሁሉም እቃዎች</button>
+            <button onclick="filterCategory('all')">ሁሉም</button>
             <button onclick="filterCategory('electronics')">ኤሌክትሮኒክስ</button>
             <button onclick="filterCategory('clothing')">አልባሳት</button>
             <button onclick="filterCategory('furniture')">የቤት እቃዎች</button>
+            <button onclick="toggleTheme()" id="theme-btn" style="background:#333; color:#fff;">🌙</button>
         </nav>
     </header>
 
+    <div class="banner-slider">
+        <div class="slide active">🔥 ልዩ ቅናሽ! የ MAKI2026 ኩፖን በመጠቀም 5% ቅናሽ ያግኙ!</div>
+        <div class="slide">🚚 በአዲስ አበባ ማዕከላት ፈጣን እና አስተማማኝ የማድረስ አገልግሎት!</div>
+        <div class="slide">✨ አዳዲስ እቃዎች በአስተዳዳሪው ፓነል ተጭነዋል!</div>
+    </div>
+
     <main class="main-container">
-        <!-- የምርት ማሳያ ክፍል -->
         <section class="products-section">
             <h2>የምርቶች ዝርዝር</h2>
-            <div id="product-list" class="product-grid">
-                <!-- ጃቫስክሪፕቱ ምርቶቹን እዚህ ውስጥ በአውቶማቲክ ይጭናል -->
-            </div>
+            <div id="product-list" class="product-grid"></div>
         </section>
 
-        <!-- የጎንዮሽ ማስተካከያ (ካርት እና ማወዳደሪያ) -->
         <aside class="sidebar-section">
-            <!-- 1. የእቃ ማወዳደሪያ ክፍል -->
             <div class="compare-box">
                 <h3>📊 እቃዎችን ማወዳደሪያ</h3>
                 <div class="compare-selectors">
@@ -46,58 +53,59 @@
                 </div>
             </div>
 
-            <!-- 2. የግዢ ከረጢት (Cart) ክፍል -->
             <div class="cart-box">
                 <h3>🛍️ የግዢ ከረጢት (Cart)</h3>
-                <div id="cart-items">
-                    <p>ከረጢቱ ባዶ ነው።</p>
-                </div>
+                <div id="cart-items"><p>ከረጢቱ ባዶ ነው።</p></div>
 
-                <!-- የኩፖን ክፍል -->
                 <div class="promo-box">
-                    <input type="text" id="promo-input" placeholder="የኩፖን ኮድ (ለምሳሌ: MAKI2026)">
+                    <input type="text" id="promo-input" placeholder="የኩፖን ኮድ (MAKI2026)">
                     <button onclick="applyPromoCode()">አረጋግጥ</button>
-                    <p id="promo-message" style="font-size: 12px; margin-top: 5px;"></p>
+                    <p id="promo-message" style="font-size: 11px; margin-top: 3px;"></p>
                 </div>
 
-                <!-- የማስረከቢያ ቦታ መረጣ -->
                 <div class="delivery-box">
-                    <label>አካባቢ ይምረጡ:</label>
+                    <label>የአዲስ አበባ አድራሻ ይምረጡ:</label>
                     <select id="customer-location" onchange="updateDeliveryFee()">
-                        <option value="" data-fee="0">አካባቢ ይምረጡ</option>
-                        <option value="አዲስ አበባ" data-fee="150">አዲስ አበባ (150 ብር)</option>
-                        <option value="ጎንደር" data-fee="250">ጎንደር (250 ብር)</option>
-                        <option value="ባህር ዳር" data-fee="200">ባህር ዳር (200 ብር)</option>
+                        <option value="" data-fee="0">አድራሻ ይምረጡ</option>
+                        <option value="ቦሌ" data-fee="150">ቦሌ (150 ብር)</option>
+                        <option value="ፒያሳ" data-fee="120">ፒያሳ (120 ብር)</option>
+                        <option value="መገናኛ" data-fee="130">መገናኛ (130 ብር)</option>
+                        <option value="ካዛንቺስ" data-fee="100">ካዛንቺስ (100 ብር)</option>
+                        <option value="ሜክሲኮ" data-fee="140">ሜክሲኮ (140 ብር)</option>
+                        <option value="ቃሊቲ / አቃቂ" data-fee="200">ቃሊቲ / አቃቂ (200 ብር)</option>
+                        <option value="ሰሚት / አያት" data-fee="180">ሰሚት / አያት (180 ብር)</option>
                     </select>
                 </div>
 
-                <div id="cart-total" class="cart-total">
-                    <b>ዕቃዎች ድምር:</b> 0 ብር
-                </div>
+                <div id="cart-total" class="cart-total"><b>ዕቃዎች ድምር:</b> 0 ብር</div>
 
-                <!-- 3. የትዕዛዝ ማስተላለፊያ ፎርም -->
                 <form id="checkout-form" onsubmit="checkout(event)">
                     <input type="text" id="customer-name" placeholder="ሙሉ ስምዎ" required>
                     <input type="text" id="customer-phone" placeholder="ስልክ ቁጥርዎ" required>
                     
-                    <select id="payment-method" required>
-                        <option value="ቀጥታ የባንክ ማስተላለፍ (Bank Transfer)">ቴሌብር / ባንክ ማስተላለፍ</option>
+                    <!-- የክፍያ አማራጮች -->
+                    <select id="payment-method" onchange="showPaymentDetails()" required>
+                        <option value="">የክፍያ አማራጭ ይምረጡ</option>
+                        <option value="Telebirr">ቴሌብር (Telebirr)</option>
+                        <option value="CBE">ንግድ ባንክ (CBE)</option>
+                        <option value="Abyssinia">አባሻ ባንክ (Abyssinia)</option>
+                        <option value="Dashen">ዳሽን ባንክ (Dashen)</option>
+                        <option value="COD">በዕቃ መረከቢያ ጊዜ በጥሬ ገንዘብ (COD)</option>
                     </select>
 
-                    <input type="text" id="transaction-id" placeholder="የክፍያ ማረጋገጫ (Transaction ID) - ግዴታ" required>
-                    
+                    <!-- ገንዘብ የሚተላለፍበት ቁጥር የሚታይበት ቦታ -->
+                    <div id="payment-info-box" style="display:none; background:#e9ecef; padding:8px; border-radius:4px; font-size:12px; margin-bottom:8px; color:#333;"></div>
+
+                    <input type="text" id="transaction-id" placeholder="የክፍያ ማረጋገጫ (Transaction ID)" required>
                     <button type="submit" class="checkout-btn">ትዕዛዝ አስተላልፍ 🚀</button>
                 </form>
             </div>
         </aside>
     </main>
 
-    <!-- 4. የአስተዳዳሪ ማዕከል ክፍል (Admin Dashboard) -->
     <div id="admin-modal" class="modal" style="display: none;">
         <div class="modal-content admin-content">
             <h2>🛠️ የአስተዳዳሪ ፓነል (Admin Dashboard)</h2>
-            <p>እቃዎችን ለመጨመር፣ ለማስተካከል እና ለመሰረዝ መቆጣጠሪያ።</p>
-            
             <div class="add-product-form">
                 <h3>አዲስ እቃ ለመጨመር</h3>
                 <input type="text" id="admin-product-name" placeholder="የእቃው ስም">
@@ -110,12 +118,10 @@
                 <input type="text" id="admin-product-image" placeholder="የምስል ሊንክ (URL)">
                 <button onclick="adminAddProduct()">እቃ ጨምር</button>
             </div>
-
-            <hr style="margin: 20px 0;">
-            <h3>የነባር እቃዎች ዝርዝር</h3>
-            <div id="admin-product-management-list" style="max-height: 250px; overflow-y: auto;"></div>
-            
-            <button onclick="window.location.href = window.location.pathname" style="margin-top: 15px; background: #dc3545; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer;">አስተዳዳሪ ውጣ (Close)</button>
+            <hr style="margin: 15px 0;">
+            <h3>የነባር እቃዎች ዝርዝር (ዋጋ ማስተካከያ)</h3>
+            <div id="admin-product-management-list" style="max-height: 200px; overflow-y: auto;"></div>
+            <button onclick="closeAdminPanel()" style="margin-top: 15px; background: #dc3545; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; width: 100%; font-weight: bold;">❌ አድሚን ፓነል ውጣ (Exit)</button>
         </div>
     </div>
 
