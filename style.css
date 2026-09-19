@@ -102,9 +102,57 @@ nav button {
     to { opacity: 1; }
 }
 
+/* የበዓል ስጦታ ማሽከርከሪያ ክፍል ቅጥ */
+.holiday-gift-section {
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    color: white;
+    text-align: center;
+    padding: 15px;
+    margin: 15px auto;
+    max-width: 1300px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.gift-container h2 {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.gift-container p {
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.spin-btn {
+    background: #ffc107;
+    color: #333;
+    border: none;
+    padding: 8px 20px;
+    font-weight: bold;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.spin-btn:hover {
+    background: #e0a800;
+}
+
+.spin-result {
+    margin-top: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    background: rgba(255,255,255,0.2);
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 5px;
+}
+
 .main-container {
     display: flex;
-    padding: 20px;
+    padding: 0 20px 20px 20px;
     gap: 20px;
     max-width: 1300px;
     margin: 0 auto;
@@ -153,7 +201,7 @@ nav button {
     margin-bottom: 8px;
 }
 
-.compare-selectors select, .delivery-box select, .promo-box input, #checkout-form input, #checkout-form select {
+.compare-selectors select, .delivery-box select, .promo-box input, #checkout-form input, #checkout-form select, .admin-content input {
     width: 100%;
     padding: 7px;
     margin-bottom: 6px;
@@ -212,16 +260,6 @@ nav button {
     border-radius: 8px;
     width: 90%;
     max-width: 480px;
-}
-
-.admin-content input, .admin-content select {
-    width: 100%;
-    padding: 7px;
-    margin-bottom: 8px;
-    border: 1px solid #888;
-    border-radius: 4px;
-    background: var(--card-bg);
-    color: var(--text-color);
 }
 
 .admin-content button {
