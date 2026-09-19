@@ -246,77 +246,52 @@ function updateComparison() {
         </table>
     `;
 }
+// --- አዲስ እቃ በአድሚን በኩል መጨመሪያ (ዋጋውን ጨምሮ) ---
+function adminAddProduct() {
+    const nameInput = document.getElementById("admin-product-name");
+    const priceInput = document.getElementById("admin-product-price");
+    const categoryInput = document.getElementById("admin-product-category");
+    const imageInput = document.getElementById("admin-product-image");
 
-// Admin Panel Functions
-function checkAdminAccess() {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('admin') === 'true') {
-        document.getElementById("admin-modal").style.display = "flex";
-        document.getElementById("admin-pass-input").value = "";
-        document.getElementById("admin-error-msg").innerText = "";
-        document.getElementById("admin-login-box").style.display = "block";
-        document.getElementById("admin-dashboard-box").style.display = "none";
-    }
-}
+    const name = nameInput ? nameInput.value.trim() : "";
+    const price = priceInput ? parseFloat(priceInput.value) : NaN;
+    const category = categoryInput ? categoryInput.value : "electronics";
+    const image = imageInput && imageInput.value.trim() !== "" ? imageInput.value.trim() : "https://via.placeholder.com/150";
 
-function closeAdminModal() {
-    document.getElementById("admin-modal").style.display = "none";
-}
-
-function verifyAdminPassword() {
-    const pass = document.getElementById("admin-pass-input").value.trim();
-    if (pass === "maki2026") {
-        document.getElementById("admin-login-box").style.display = "none";
-        document.getElementById("admin-dashboard-box").style.display = "block";
-        populateAdminProductDropdown();
-    } else {
-        document.getElementById("admin-error-msg").innerText = "✗ ትክክል ያልሆነ የይለፍ ቃል!";
-    }
-}
-
-function populateAdminProductDropdown() {
-    const select = document.getElementById("admin-product-select");
-    let optionsHtml = '<option value="">-- ማስተካከል የሚፈልጉትን እቃ ይምረጡ --</option>';
-    products.forEach(p => {
-        optionsHtml += `<option value="${p.id}">${p.name} (አሁን ያለው ዋጋ: ${p.price} ብር)</option>`;
-    });
-    select.innerHTML = optionsHtml;
-    document.getElementById("edit-p-price").value = "";
-}
-
-function loadProductDetailsForAdmin() {
-    const selectedId = document.getElementById("admin-product-select").value;
-    const priceInput = document.getElementById("edit-p-price");
-    if (!selectedId) {
-        priceInput.value = "";
-        return;
-    }
-    const product = products.find(p => p.id == selectedId);
-    if (product) {
-        priceInput.value = product.price;
-    }
-}
-
-function updateExistingProductPrice() {
-    const selectedId = document.getElementById("admin-product-select").value;
-    const newPrice = Number(document.getElementById("edit-p-price").value);
-
-    if (!selectedId) {
-        alert("እባክዎ መጀመሪያ ማስተካከል የሚፈልጉትን እቃ ይምረጡ!");
-        return;
-    }
-    if (!newPrice || newPrice <= 0) {
-        alert("እባክዎ ትክክለኛ አዲስ ዋጋ ያስገቡ!");
+    // ዋጋው እና ስሙ በትክክል መሞላታቸውን ማረጋገጥ
+    if (!name || isNaN(price) || price <= 0) {
+        alert("⚠️ እባክዎ ትክክለኛ የእቃ ስም እና ትክክለኛ የዋጋ ቁጥር ያስገቡ!");
         return;
     }
 
-    const product = products.find(p => p.id == selectedId);
-    if (product) {
-        product.price = newPrice;
+    // አዲሱን እቃ መፍጠር
+    const newProduct = {
+        id: products.length > 0 ? products[products.length - 1].id + 1 : 1,
+        name: name,
+        price: price,
+        category: category,
+        image: image
+    };
+
+    // ወደ products አሬ (Array) መጨመር
+    products.push(newProduct);
+    
+    // በዌብሳይቱ ላይ እና በአድሚን ዝርዝር ውስጥ ማሳየት
+    if (typeof renderProducts === 'function') {
         renderProducts(products);
-        populateAdminProductDropdown();
-        alert("የእቃው ዋጋ በስኬት ተሻሽሏል!");
     }
+    if (typeof renderAdminManagementList === 'function') {
+        renderAdminManagementList();
+    }
+
+    alert("✅ አዲሱ እቃ እና ዋጋው በተሳካ ሁኔታ ተጨመረ!");
+
+    // ፎርሙን ማጽዳት
+    if (nameInput) nameInput.value = "";
+    if (priceInput) priceInput.value = "";
+    if (imageInput) imageInput.value = "";
+}
+
 }
 
 function deleteExistingProduct() {
