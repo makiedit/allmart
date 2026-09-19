@@ -25,11 +25,23 @@
         </nav>
     </header>
 
-    <div class="banner-slider">
-        <div class="slide active">🔥 ልዩ ቅናሽ! የ MAKI2026 ኩፖን በመጠቀም 5% ቅናሽ ያግኙ!</div>
+    <!-- የሚሽከረከር ባነር -->
+    <div class="banner-slider" id="banner-slider-box">
+        <div class="slide active">🔥 እንኳን ወደ ማልማርት ሱፐርማርኬት በደህና መጡ!</div>
         <div class="slide">🚚 በአዲስ አበባ ማዕከላት ፈጣን እና አስተማማኝ የማድረስ አገልግሎት!</div>
-        <div class="slide">✨ አዳዲስ እቃዎች በአስተዳዳሪው ፓነል ተጭነዋል!</div>
     </div>
+
+    <!-- የአስተዳዳሪው ስጦታ ማሽከረከሪያ / መግለጫ (አድሚኑ ሲፈቅድ ብቻ የሚታይ) -->
+    <section id="holiday-gift-section" class="holiday-gift-section" style="display: none;">
+        <div class="gift-container">
+            <h2>🎁 ልዩ የበዓል ስጦታ ዕድልዎ እዚህ ይሞክሩ!</h2>
+            <p id="admin-gift-description">ድርጅታችን ለተከበሩ ደንበኞቻችን ያዘጋጀውን ስጦታ ለማግኘት ከታች ያለውን ቁልፍ ይጫኑ!</p>
+            <div class="spin-box">
+                <button onclick="spinHolidayGift()" class="spin-btn">ስጦታውን አሽከርክር 🎡</button>
+                <div id="spin-result-display" class="spin-result"></div>
+            </div>
+        </div>
+    </section>
 
     <main class="main-container">
         <section class="products-section">
@@ -57,8 +69,9 @@
                 <h3>🛍️ የግዢ ከረጢት (Cart)</h3>
                 <div id="cart-items"><p>ከረጢቱ ባዶ ነው።</p></div>
 
-                <div class="promo-box">
-                    <input type="text" id="promo-input" placeholder="የኩፖን ኮድ (MAKI2026)">
+                <!-- የቅናሽ ቦታ (አድሚን ሲፈቅድ ብቻ የሚታይ) -->
+                <div class="promo-box" id="promo-container" style="display: none;">
+                    <input type="text" id="promo-input" placeholder="የኩፖን ኮድ (MAKI5, FREEDEL, MAKI2)">
                     <button onclick="applyPromoCode()">አረጋግጥ</button>
                     <p id="promo-message" style="font-size: 11px; margin-top: 3px;"></p>
                 </div>
@@ -83,17 +96,15 @@
                     <input type="text" id="customer-name" placeholder="ሙሉ ስምዎ" required>
                     <input type="text" id="customer-phone" placeholder="ስልክ ቁጥርዎ" required>
                     
-                    <!-- የክፍያ አማራጮች -->
                     <select id="payment-method" onchange="showPaymentDetails()" required>
                         <option value="">የክፍያ አማራጭ ይምረጡ</option>
                         <option value="Telebirr">ቴሌብር (Telebirr)</option>
                         <option value="CBE">ንግድ ባንክ (CBE)</option>
-                        <option value="Abyssinia">አባሻ ባንክ (Abyssinia)</option>
+                        <option value="Abyssinia">አቢሲኒያ ባንክ (Abyssinia)</option>
                         <option value="Dashen">ዳሽን ባንክ (Dashen)</option>
                         <option value="COD">በዕቃ መረከቢያ ጊዜ በጥሬ ገንዘብ (COD)</option>
                     </select>
 
-                    <!-- ገንዘብ የሚተላለፍበት ቁጥር የሚታይበት ቦታ -->
                     <div id="payment-info-box" style="display:none; background:#e9ecef; padding:8px; border-radius:4px; font-size:12px; margin-bottom:8px; color:#333;"></div>
 
                     <input type="text" id="transaction-id" placeholder="የክፍያ ማረጋገጫ (Transaction ID)" required>
@@ -103,10 +114,26 @@
         </aside>
     </main>
 
+    <!-- የአስተዳዳሪ ማዕከል (Admin Dashboard) -->
     <div id="admin-modal" class="modal" style="display: none;">
         <div class="modal-content admin-content">
             <h2>🛠️ የአስተዳዳሪ ፓነል (Admin Dashboard)</h2>
-            <div class="add-product-form">
+            <p>እቃዎችን፣ ቅናሾችን እና የበዓል ስጦታዎችን መቆጣጠሪያ።</p>
+            
+            <div style="background:rgba(0,0,0,0.05); padding:10px; margin:10px 0; border-radius:5px;">
+                <h3>🎁 የቅናሽ እና በዓል ስጦታ ማስተካከያ</h3>
+                <label style="font-size:12px; display:block; margin:5px 0;">
+                    <input type="checkbox" id="admin-discount-checkbox" onchange="toggleAdminDiscount(this)"> ቅናሾች (Promo Codes) ለደንበኞች እንዲታዩ ፍቀድ
+                </label>
+                <hr style="margin: 8px 0;">
+                <label style="font-size:12px; display:block; margin:5px 0;">
+                    <input type="checkbox" id="admin-gift-checkbox" onchange="toggleAdminGift(this)"> የበዓል ስጦታ ማሽከርከሪያ (Spin Gift) ለደንበኞች አሳይ
+                </label>
+                <input type="text" id="admin-gift-text-input" placeholder="ለስጦታው የሚሆን መግለጫ (ለምሳሌ: አሸንፈዋል!)" style="margin-top:5px;">
+                <button onclick="saveAdminGiftSettings()" style="background:#28a745; margin-top:5px; width:100%;">ስጦታውን አስተካክል</button>
+            </div>
+
+            <div class="add-product-form" style="margin-top:10px;">
                 <h3>አዲስ እቃ ለመጨመር</h3>
                 <input type="text" id="admin-product-name" placeholder="የእቃው ስም">
                 <input type="number" id="admin-product-price" placeholder="ዋጋ (ብር)">
@@ -118,9 +145,11 @@
                 <input type="text" id="admin-product-image" placeholder="የምስል ሊንክ (URL)">
                 <button onclick="adminAddProduct()">እቃ ጨምር</button>
             </div>
+
             <hr style="margin: 15px 0;">
             <h3>የነባር እቃዎች ዝርዝር (ዋጋ ማስተካከያ)</h3>
-            <div id="admin-product-management-list" style="max-height: 200px; overflow-y: auto;"></div>
+            <div id="admin-product-management-list" style="max-height: 150px; overflow-y: auto;"></div>
+            
             <button onclick="closeAdminPanel()" style="margin-top: 15px; background: #dc3545; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; width: 100%; font-weight: bold;">❌ አድሚን ፓነል ውጣ (Exit)</button>
         </div>
     </div>
