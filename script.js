@@ -1,5 +1,4 @@
 let products = [
-    // --- 1. ኤሌክትሮኒክስ (Electronics - 15 እቃዎች) ---
     { id: 1, name: "ስማርት ስልክ (Smartphone)", price: 15000, category: "electronics", image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300", description: "ጥራት ያለው ዘመናዊ ስማርት ስልክ።" },
     { id: 2, name: "ላፕቶፕ (Laptop)", price: 38000, category: "electronics", image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=300", description: "ፈጣን እና ለአሰራር ምቹ የሆነ ኮር i5 ላፕቶፕ።" },
     { id: 3, name: "ታብሌት (Tablet)", price: 12000, category: "electronics", image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=300", description: "ለጥናት እና ለመዝናኛ የሚሆን ታብሌት።" },
@@ -16,7 +15,7 @@ let products = [
     { id: 14, name: "ሞኒተር 24 ኢንች (Monitor 24\")", price: 11000, category: "electronics", image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=300", description: "ግልጽ የኤልዲ ማሳያ ሞኒተር።" },
     { id: 15, name: "ፕሪንተር (Printer)", price: 9500, category: "electronics", image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=300", description: "ሰነዶችን በፍጥነት ማተሚያ ማሽን።" },
 
-    // --- 2. አልባሳት (Clothing - 15 እቃዎች) ---
+    // --- አልባሳት (Clothing - 15 እቃዎች) ---
     { id: 16, name: "ወንድ ጃኬት (Men Jacket)", price: 2500, category: "clothing", image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=300", description: "ሞቅ የሚያደርግ የወንድ ጃኬት።" },
     { id: 17, name: "የስፖርት ጫማ (Sport Shoes)", price: 3200, category: "clothing", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300", description: "ለስፖርት ምቹ የሆነ ጫማ።" },
     { id: 18, name: "ክላሲክ ሱሪ (Classic Trouser)", price: 1800, category: "clothing", image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=300", description: "ለስራ የሚሆን ውብ ሱሪ።" },
@@ -33,7 +32,7 @@ let products = [
     { id: 29, name: "የጥጥ ሹራብ (Cotton Sweater)", price: 1700, category: "clothing", image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=300", description: "ቀላል እና ለሰውነት ምቹ የሆነ የጥጥ ሹራብ።" },
     { id: 30, name: "ባርኔጣ እና ሻርፕ (Cap & Scarf Set)", price: 600, category: "clothing", image: "https://images.unsplash.com/photo-1576871337622-98d48d1cf531?w=300", description: "ከፀሐይ እና ከቀዝቃዛ አየር መከላከያ ስብስብ።" },
 
-    // --- 3. የቤት እቃዎች (Furniture - 15 እቃዎች) ---
+    // --- የቤት እቃዎች (Furniture - 15 እቃዎች) ---
     { id: 31, name: "ዘመናዊ የቡና ጠረጴዛ (Coffee Table)", price: 4500, category: "furniture", image: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=300", description: "ለሳሎን የሚሆን ማራኪ ጠረጴዛ።" },
     { id: 32, name: "የመኝታ አልጋ (Bed Frame)", price: 22000, category: "furniture", image: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=300", description: "ምቹ እና ጥራት ያለው አልጋ።" },
     { id: 33, name: "የቢሮ ወንበር (Office Chair)", price: 5500, category: "furniture", image: "https://images.unsplash.com/photo-1580481077494-e3299ac25b94?w=300", description: "የሚስተካከል የቢሮ ወንበር።" },
@@ -54,9 +53,11 @@ let products = [
 let cart = [];
 let deliveryFee = 0;
 let discountRate = 0;
+let freeDelivery = false;
 let appliedPromoCode = "";
 let couponUsed = false; 
-let adminAllowedDiscountRate = 0.05;
+let adminDiscountAllowed = false; 
+let adminGiftAllowed = false; // አድሚኑ ስጦታን እንዲታይ የፈቀደበት ሁኔታ
 
 window.addEventListener('DOMContentLoaded', () => {
     renderProducts(products);
@@ -89,6 +90,65 @@ function startBannerSlider() {
         currentSlide = (currentSlide + 1) % slides.length;
         slides[currentSlide].classList.add('active');
     }, 3000);
+}
+
+// --- አድሚን የበዓል ስጦታ ማስተካከያ እና ቁጥጥር ---
+function toggleAdminGift(checkbox) {
+    adminGiftAllowed = checkbox.checked;
+    const giftSection = document.getElementById("holiday-gift-section");
+    if (adminGiftAllowed) {
+        giftSection.style.display = "block";
+        alert("🎁 አድሚኑ የበዓል ስጦታ ማሽከርከሪያውን አበራ; ለደንበኞች ታይቷል።");
+    } else {
+        giftSection.style.display = "none";
+        alert("🔒 አድሚኑ የበዓል ስጦታውን ዘጋው; ከጣቢያው ሙሉ በሙሉ ጠፋ።");
+    }
+}
+
+function saveAdminGiftSettings() {
+    const customText = document.getElementById("admin-gift-text-input").value.trim();
+    const descEl = document.getElementById("admin-gift-description");
+    if (customText) {
+        descEl.innerText = customText;
+        alert("✨ የስጦታው መግለጫ ተስተካክሏል!");
+    } else {
+        alert("⚠️ እባክዎ መግለጫ ጽሁፍ ያስገቡ!");
+    }
+}
+
+// --- የደንበኛ ስጦታ ማሽከርከሪያ (Spin Game) ---
+function spinHolidayGift() {
+    const resultBox = document.getElementById("spin-result-display");
+    resultBox.innerText = "🔄 በመሽከርከር ላይ...";
+    
+    setTimeout(() => {
+        // የዘፈቀደ ስጦታዎች (100 ብር፣ ምስጋና፣ ወይም ነፃ ዕቃ)
+        const possibleGifts = [
+            "🎉 እንኳን ደስ አለዎት! 100 ብር የሽልማት ቦነስ አሸንፈዋል!",
+            "🙏 እናመሰግናለን! ለዚህ ግዢዎ 50 ብር ቅናሽ ተሰጥቷል!",
+            "✨ መልካም በዓል! ነፃ የዕቃ ማድረሻ (Free Delivery) ተሸልመዋል!",
+            "🎈 እናመሰግናለን! ቀጣይ ዕድልዎን ይሞክሩ!"
+        ];
+        const randomGift = possibleGifts[Math.floor(Math.random() * possibleGifts.length)];
+        resultBox.innerText = randomGift;
+    }, 1000);
+}
+
+// --- አድሚን የቅናሽ ፈቃድ ማስተካከያ ---
+function toggleAdminDiscount(checkbox) {
+    adminDiscountAllowed = checkbox.checked;
+    const promoContainer = document.getElementById("promo-container");
+    if (adminDiscountAllowed) {
+        promoContainer.style.display = "block";
+        alert("🔓 አድሚኑ ቅናሾችን ፈቅዷል፤ የቅናሽ ቦታው ለደንበኞች ታይቷል።");
+    } else {
+        promoContainer.style.display = "none";
+        discountRate = 0;
+        freeDelivery = false;
+        couponUsed = false;
+        updateCartUI();
+        alert("🔒 አድሚኑ ቅናሾችን ዘግቷል፤ የቅናሽ ቦታው ተደብቋል።");
+    }
 }
 
 function toggleTheme() {
@@ -187,22 +247,51 @@ function updateCartUI() {
     });
 
     let discount = subtotal * discountRate;
-    let grand = (subtotal - discount) + deliveryFee;
-    cartTotalElement.innerHTML = `<b>ድምር:</b> ${subtotal} ብር<br>${discountRate>0?`<b>ቅናሽ:</b> -${discount} ብር<br>`:''}<b>ማስረከቢያ:</b> ${deliveryFee} ብር<br><b style="color:#28a745;">ጠቅላላ: ${grand} ብር</b>`;
+    let currentDelivery = freeDelivery ? 0 : deliveryFee;
+    let grand = (subtotal - discount) + currentDelivery;
+
+    cartTotalElement.innerHTML = `<b>ድምር:</b> ${subtotal} ብር<br>
+        ${discountRate > 0 ? `<b>ቅናሽ:</b> -${discount} ብር<br>` : ''}
+        <b>ማስረከቢያ:</b> ${currentDelivery} ብር ${freeDelivery ? '(ነፃ - Free Delivery)' : ''}<br>
+        <b style="color:#28a745;">ጠቅላላ: ${grand} ብር</b>`;
 }
 
 function applyPromoCode() {
+    if (!adminDiscountAllowed) {
+        alert("❌ አስተዳዳሪው በአሁኑ ሰዓት ቅናሽ አልፈቀደም!");
+        return;
+    }
+
     const code = document.getElementById("promo-input").value.trim().toUpperCase();
     const msg = document.getElementById("promo-message");
-    if (couponUsed) { msg.style.color="red"; msg.innerText="❌ ኩፖኑ ተጠቀሟል!"; return; }
-    if (code === "MAKI2026") {
+
+    if (couponUsed) { 
+        msg.style.color = "red"; 
+        msg.innerText = "❌ ይህ ኩፖን በዚህ ትዕዛዝ ተጠቀሟል!"; 
+        return; 
+    }
+
+    if (code === "MAKI5") {
         discountRate = 0.05;
+        freeDelivery = false;
         couponUsed = true;
-        msg.style.color="green";
-        msg.innerText="🎉 5% ቅናሽ ተደረገ!";
+        msg.style.color = "green";
+        msg.innerText = "🎉 5% ቅናሽ ተደረገ!";
+    } else if (code === "FREEDEL") {
+        discountRate = 0;
+        freeDelivery = true;
+        couponUsed = true;
+        msg.style.color = "green";
+        msg.innerText = "🎉 ነፃ ማድረሻ (Free Delivery) ተሰርቷል!";
+    } else if (code === "MAKI2") {
+        discountRate = 0.02;
+        freeDelivery = false;
+        couponUsed = true;
+        msg.style.color = "green";
+        msg.innerText = "🎉 2% ቅናሽ ተደረገ!";
     } else {
-        msg.style.color="red";
-        msg.innerText="❌ ትክክል ያልሆነ ኮድ!";
+        msg.style.color = "red";
+        msg.innerText = "❌ ትክክል ያልሆነ የኩፖን ኮድ!";
     }
     updateCartUI();
 }
