@@ -74,20 +74,7 @@
                 <option value="ላፍቶ (Lafito / ቃሊቲ)" data-fee="250">ላፍቶ / ቃሊቲ (250 ብር)</option>
             </select>
             <div class="customer-form">
-                <h3>የመላኪያ መረጃዎ</h3>
-                <input type="text" id="customer-name" placeholder="ሙሉ ስምዎ (ለምሳሌ፦ ማክቤል ካሰዬ)" required>
-                <input type="text" id="customer-phone" placeholder="ስልክ ቁጥር (ለምሳሌ፦ 0911223344)" required>
-                
-                <label for="customer-location">የሚገኙበት አካባቢ (ለመላኪያ ክፍያ):</label>
-                <select id="customer-location" onchange="updateDeliveryFee()">
-                    <option value="" data-fee="0">-- አካባቢ ይምረጡ --</option>
-                    <option value="ቦሌ (Bole)" data-fee="150">ቦሌ (150 ብር)</option>
-                    <option value="ፒያሳ (Piassa)" data-fee="200">ፒያሳ (200 ብር)</option>
-                    <option value="መገናኛ (Megenagna)" data-fee="120">መገናኛ (120 ብር)</option>
-                    <option value="ሳሪስ (Saris)" data-fee="180">ሳሪስ (180 ብር)</option>
-                    <option value="ላፍቶ (Lafito / ቃሊቲ)" data-fee="250">ላፍቶ / ቃሊቲ (250 ብር)</option>
-                </select>
-                
+              
                 <label for="payment-method">የክፍያ አማራጭ ይምረጡ፡</label>
                 <select id="payment-method">
                     <option value="ቴሌብር (Telebirr)">ቴሌብር (Telebirr)</option>
@@ -106,15 +93,7 @@
                 <label for="transaction-id">የክፍያ ማረጋገጫ (Transaction ID / Receipt No):</label>
                 <input type="text" id="transaction-id" placeholder="ለምሳሌ፦ ET12345678" required>
             </div>
-            <label for="payment-method">የክፍያ አማራጭ ይምረጡ፡</label>
-            <select id="payment-method">
-                <option value="ቴሌብር (Telebirr)">ቴሌብር (Telebirr)</option>
-                <option value="የኢትዮጵያ ንግድ ባንክ (CBE)">የኢትዮጵያ ንግድ ባንክ (CBE)</option>
-                <option value="እቃው ሲደርስ በጥሬ ገንዘብ (Cash on Delivery)">እቃው ሲደርስ በጥሬ ገንዘብ (Cash)</option>
-                <label for="payment-method">የክፍያ አማራጭ ይምረጡ፡</label>
-            <select id="payment-method">
-                <option value="ቴሌብር (Telebirr)">ቴሌብር (Telebirr)</option>
-                <option value="የኢትዮጵያ ንግድ ባንክ (CBE)">የኢትዮጵያ ንግድ ባንክ (CBE)</option>
+          
             </select>
 
             <!-- የክፍያ ደረሰኝ ወይም የትራንዛክሽን ቁጥር ማስገቢያ -->
