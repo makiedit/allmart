@@ -1,24 +1,28 @@
 window.addEventListener('DOMContentLoaded', () => {
-    // የአድሚን ፓነል ማረጋገጫ (?admin=true)
     const urlParams = new URLSearchParams(window.location.search);
     const isAdmin = urlParams.get('admin');
-    const adminPanel = document.getElementById("admin-panel");
+    const adminModal = document.getElementById("admin-modal"); // በ HTML ፋይልዎ ላይ ያለው የሞዳል ስም
     
     if (isAdmin === 'true') {
         let password = prompt("🔒 እባክዎ የአስተዳዳሪ (Admin) መግቢያ ቃል ያስገቡ:");
         
         if (password === "maki2026") {
-            if (adminPanel) {
-                adminPanel.style.display = "block";
+            if (adminModal) {
+                adminModal.style.display = "block"; // አድሚን ፓነሉ እንዲታይ ያደርጋል
             }
             alert("✨ እንኳን ደህና መጡ! ወደ አድሚን ፓነል ገብተዋል።");
+            
+            // የአስተዳዳሪው እቃ ማስተዳደሪያ ዝርዝር እንዲጫን ከፈለጉ
+            if (typeof renderAdminManagementList === 'function') {
+                renderAdminManagementList();
+            }
         } else {
             alert("❌ የሰጡት የይለፍ ቃል ስህተት ነው!");
-            window.location.href = window.location.pathname; 
+            window.location.href = window.location.pathname; // ትክክል ካልሆነ ወደ መደበኛው ገጽ ይመልሳል
         }
     } else {
-        if (adminPanel) {
-            adminPanel.style.display = "none";
+        if (adminModal) {
+            adminModal.style.display = "none"; // አድሚን ካልሆነ ይደብቀዋል
         }
     }
 });
