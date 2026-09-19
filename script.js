@@ -425,16 +425,39 @@ function checkout(e) {
         return; 
     }
     
-    let orderMessage = `🛒 አዲስ ትዕዛዝ መጣ!\n\n👤 ስም: ${name}\n📞 ስልክ: ${phone}\n📍 አድራሻ: ${location}\n💳 የክፍያ መንገድ: ${paymentMethod}\n🆔 የክፍያ መለያ (TxID): ${tx}`;
+    // የዕቃዎቹን ዝርዝር እና ዋጋ ማስላት
+    let itemsText = "";
+    let subtotal = 0;
+    cart.forEach(item => {
+        let itemTotal = item.price * item.quantity;
+        subtotal += itemTotal;
+        itemsText += `- ${item.name} (${item.quantity} ብዛት) = ${itemTotal} ብር\n`;
+    });
+
+    let discount = subtotal * discountRate;
+    let currentDelivery = freeDelivery ? 0 : deliveryFee;
+    let grandTotal = (subtotal - discount) + currentDelivery;
+
+    // ሙሉውን መረጃ የያዘ የቴሌግራም መልእክት
+    let orderMessage = `🛒 አዲስ ትዕዛዝ መጣ!\n\n` +
+                       `👤 ስም: ${name}\n` +
+                       `📞 ስልክ: ${phone}\n` +
+                       `📍 አድራሻ: ${location}\n\n` +
+                       `📦 የተመረጡ እቃዎች:\n${itemsText}\n` +
+                       `💰 ዕቃዎች ድምር: ${subtotal} ብር\n` +
+                       `${discount > 0 ? `🏷️ ቅናሽ: -${discount} ብር\n` : ''}` +
+                       `🚚 ማድረሻ ዋጋ: ${currentDelivery} ብር\n` +
+                       `💵 ጠቅላላ ዋጋ: ${grandTotal} ብር\n\n` +
+                       `💳 የክፍያ መንገድ: ${paymentMethod}\n` +
+                       `🆔 የክፍያ ማረጋገጫ (TxID): ${tx}`;
     
-    // ቴሌግራም ቦት ላይ ትዕዛዙን መላክ
+    // ወደ ቴሌግራም ቦት መላክ
     sendTelegramNotification(orderMessage);
 
-    alert("✅ ትዕዛዝዎ በተሳካ ሁኔታ ለአዲስ አበባ ማድረሻ ቡድን እና ወደ ቴሌግራም ቦትዎ ተልኳል!");
+    alert("✅ ትዕዛዝዎ ዋጋውን ጨምሮ በተሳካ ሁኔታ ወደ ቴሌግራም ቦትዎ ተልኳል!");
     cart = [];
     updateCartUI();
 }
-
 function showProductDetail(id) {
     const p = products.find(x => x.id === id);
     alert(`ስም: ${p.name}\nዋጋ: ${p.price} ብር\nመግለጫ: ${p.description}`);
