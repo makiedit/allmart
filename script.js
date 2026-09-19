@@ -358,14 +358,36 @@ function adminAddProduct() {
     const name = document.getElementById("admin-product-name").value.trim();
     const price = parseFloat(document.getElementById("admin-product-price").value);
     const category = document.getElementById("admin-product-category").value;
-    const image = document.getElementById("admin-product-image").value.trim() || "https://via.placeholder.com/150";
+    const image = document.getElementById("admin-product-image").value.trim() || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300";
 
-    if (!name || isNaN(price)) { alert("⚠️ ትክክለኛ መረጃ ያስገቡ!"); return; }
-    products.push({ id: products.length + 1, name, price, category, image, description: "አዲስ እቃ" });
+    if (!name || isNaN(price)) { 
+        alert("⚠️ እባክዎ ትክክለኛ የእቃ ስም እና ዋጋ ያስገቡ!"); 
+        return; 
+    }
+
+    // አዲሱን እቃ ማከማቻው ላይ መጨመር
+    const newProduct = {
+        id: products.length + 1,
+        name: name,
+        price: price,
+        category: category,
+        image: image,
+        description: "በአስተዳዳሪ የተጨመረ አዲስ እቃ"
+    };
+
+    products.push(newProduct);
+
+    // ዌብሳይቱ እና አድሚን ዝርዝሩ አብረው እንዲታደሱ ማድረግ
     renderProducts(products);
     populateCompareSelectors();
     renderAdminManagementList();
-    alert("✅ እቃው ተጨመረ!");
+
+    // ፎርሙን ባዶ ማድረግ
+    document.getElementById("admin-product-name").value = "";
+    document.getElementById("admin-product-price").value = "";
+    document.getElementById("admin-product-image").value = "";
+
+    alert("✅ አዲሱ ዕቃ ተጨመረ; አሁን በዌብሳይቱ ፊት ለፊት በግልጽ ይታያል!");
 }
 
 function adminEditProduct(id) {
