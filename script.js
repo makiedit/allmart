@@ -400,20 +400,34 @@ function adminAddProduct() {
     alert("✅ አዲሱ ዕቃ ተጨመረ; አሁን በዌብሳይቱ ፊት ለፊት በግልጽ ይታያል!");
 }
 
-// --- አድሚን ዋጋ ሲያስተካክል ---
+// --- አድሚን የእቃውን ስም እና ዋጋ ሙሉ በሙሉ ማስተካከል የሚችልበት ፈንክሽን ---
 function adminEditProduct(id) {
     const p = products.find(x => x.id === id);
-    const newName = prompt("አዲሱን ስም ያስገቡ:", p.name);
-    const newPrice = prompt("አዲሱን ዋጋ ያስገቡ:", p.price);
-    if (newName) p.name = newName;
-    if (newPrice && !isNaN(newPrice)) p.price = parseFloat(newPrice);
-    
+    if (!p) return;
+
+    const newName = prompt("አዲሱን የእቃ ስም ያስገቡ:", p.name);
+    if (newName === null) return; // ሰራተኛው ካንሰል ካደረገው መውጫ
+
+    const newPriceInput = prompt("አዲሱን ዋጋ (በብር) ያስገቡ:", p.price);
+    if (newPriceInput === null) return;
+
+    const newPrice = parseFloat(newPriceInput);
+    if (isNaN(newPrice)) {
+        alert("⚠️ እባክዎ ትክክለኛ የቁጥር ዋጋ ያስገቡ!");
+        return;
+    }
+
+    // መረጃውን ማስተካከል
+    p.name = newName.trim();
+    p.price = newPrice;
+
+    // ዌብሳይቱን እና የአድሚን መቆጣጠሪያ ዝርዝር በቅጽበት ማደስ
     renderProducts(products);
     populateCompareSelectors();
     renderAdminManagementList();
-    alert("✨ የእቃው ዋጋ እና መረጃ ተስተካክሏል!");
-}
 
+    alert(`✨ የእቃው መረጃ ተስተካክሏል!\nአዲስ ስም: ${p.name}\nአዲስ ዋጋ: ${p.price} ብር`);
+}
 function adminDeleteProduct(id) {
     if (confirm("እርግጠኛ ኖት?")) {
         products = products.filter(x => x.id !== id);
