@@ -44,8 +44,7 @@ let products = [
     { id: 43, name: "የግድግዳ ዎል ዴኮር መስተዋት (Wall Mirror)", price: 3500, category: "furniture", image: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=300", description: "ግድግዳ ላይ የሚሰቀል ትልቅ እና ጥራት ያለው መስተዋት።" },
     { id: 44, name: "የሰነድ ካዝና (Safe Box)", price: 12000, category: "furniture", image: "https://images.unsplash.com/photo-1591123120675-6f77d3ae0286?w=300", description: "ገንዘብ እና ሚስጥራዊ ሰነዶችን በጥንቃቄ መቆለፊያ።" },
     { id: 45, name: "የመዝናኛ ላውንጅ ወንበር (Lounge Chair)", price: 8500, category: "furniture", image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=300", description: "ዘና ለማለት እና ለማንበብ ምቹ የሆነ ወንበር።" }
-    {id:46,name:"የእምነበረድ ብርጭቆ", price:800, category:"furniturte", image:"https://modernaddis.com/wp-content/uploads/2021/08/10418140_828634967242353_2277196092324511802_n.jpg",description:"ቀለል ያሉ"}                   
-     
+    
 ];
 
 let cart = [];
